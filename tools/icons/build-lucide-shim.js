@@ -29,12 +29,23 @@ const CSS_VARIABLE_ICONS = [
     'circle-check',
     'circle-dot',
     'circle-x',
+    'info',
     'lock',
+    'minus',
     'plus',
     'square',
     'square-check',
+    'triangle-alert',
     'x',
 ];
+
+/**
+ * Icons drawn as background images where a mask cannot be used (e.g. on `<select>`, which has no
+ * pseudo-elements), so they need a fixed stroke color that reads on both light and dark themes.
+ */
+const CSS_BACKGROUND_ICONS = {
+    'ui-select-chevron': { icon: 'chevron-down', stroke: '#8c8c8c' },
+};
 
 /** Word-level rewrites from Font Awesome naming to Lucide naming, used for the long tail. */
 const WORD_REWRITES = [
@@ -139,15 +150,16 @@ function resolveGroup(names, isBrand) {
 /**
  * Converts a Lucide SVG file into a compact data URI usable as a mask image.
  * @param {string} icon Lucide icon name
+ * @param {string} [stroke] Stroke color; only matters when the image is not used as a mask
  * @returns {string}
  */
-function svgDataUri(icon) {
+function svgDataUri(icon, stroke = '#000') {
     const svg = fs.readFileSync(path.join(lucideDir, `${icon}.svg`), 'utf8')
         .replace(/<!--[\s\S]*?-->/g, '')
         .replace(/\s+/g, ' ')
         .replace(/\s+class="[^"]*"/, '')
         .replace(/\s+(width|height)="24"/g, '')
-        .replace(/stroke="currentColor"/, 'stroke="#000"')
+        .replace(/stroke="currentColor"/, `stroke="${stroke}"`)
         .replace(/>\s+</g, '><')
         .replace(/\s*(\/?)>/g, '$1>')
         .trim()
@@ -220,7 +232,10 @@ ${styleClasses.map(c => `.${c}`).join(',')}{-moz-osx-font-smoothing:grayscale;-w
 ${styleClasses.map(c => `.${c}::before`).join(',')}{display:inline-block;width:1em;height:1em;vertical-align:-0.125em;background-color:currentColor;-webkit-mask:var(--st-icon) center/contain no-repeat;mask:var(--st-icon) center/contain no-repeat}
 `;
 
-const variableCss = `:root{${CSS_VARIABLE_ICONS.map(icon => `--lucide-${icon}:${svgDataUri(icon)}`).join(';')}}\n`;
+const variableCss = `:root{${[
+    ...CSS_VARIABLE_ICONS.map(icon => `--lucide-${icon}:${svgDataUri(icon)}`),
+    ...Object.entries(CSS_BACKGROUND_ICONS).map(([name, { icon, stroke }]) => `--${name}:${svgDataUri(icon, stroke)}`),
+].join(';')}}\n`;
 
 const iconCss = [...selectorsByIcon.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
