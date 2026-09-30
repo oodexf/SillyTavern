@@ -32,7 +32,9 @@
     --ui-info: rgb(59, 130, 246);
 
     /* Lines and focus */
-    --ui-border: color-mix(in srgb, var(--SmartThemeBodyColor) 14%, transparent);
+    /* Borders stay visible on any background, tinted by the theme's own border color */
+    --ui-border-base: color-mix(in srgb, var(--SmartThemeBodyColor) 16%, transparent);
+    --ui-border: color-mix(in srgb, var(--ui-border-base) 75%, var(--SmartThemeBorderColor));
     --ui-input: color-mix(in srgb, var(--SmartThemeBodyColor) 20%, transparent);
     --ui-input-background: color-mix(in srgb, var(--SmartThemeBodyColor) 4%, transparent);
     --ui-ring: color-mix(in srgb, var(--SmartThemeBodyColor) 55%, transparent);
@@ -61,4 +63,13 @@
         --ui-popover: rgb(from var(--SmartThemeBlurTintColor) r g b / max(alpha, 0.92));
         --ui-primary-foreground: rgb(from var(--SmartThemeBlurTintColor) r g b);
     }
+}
+
+/*
+ * Legacy rules draw borders with --SmartThemeBorderColor, which most themes set to near-black.
+ * Below the root, point it at the (theme-tinted) border token so old and new borders match.
+ * --ui-border itself is resolved on :root from the theme value, so this does not loop.
+ */
+body {
+    --SmartThemeBorderColor: var(--ui-border);
 }

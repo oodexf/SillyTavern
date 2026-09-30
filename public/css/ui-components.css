@@ -55,9 +55,17 @@
     opacity: 0.5;
 }
 
-/* Icon-only buttons stay square */
+/* Icon-only buttons (the icon class sits on the button itself) get even, compact padding,
+   since many of them have a fixed width in legacy rules */
+.menu_button.fa-solid,
+.menu_button.fa-regular,
+.menu_button.fa-brands,
+.menu_button.lucide {
+    padding: 0.3em;
+}
+
 .menu_button.fa-fw {
-    min-width: calc(1.25em + 1.3em);
+    min-width: calc(1.25em + 0.6em);
 }
 
 .menu_button.menu_button_default {
@@ -143,17 +151,17 @@ select:disabled {
 
 select,
 select.text_pole {
-    padding: 0.3em 1.9em 0.3em 0.6em;
+    padding: 0.3em 1.45em 0.3em 0.4em;
     background-image: var(--ui-select-chevron);
     background-repeat: no-repeat;
-    background-position: right 0.5em center;
-    background-size: 1em 1em;
+    background-position: right 0.35em center;
+    background-size: 0.85em 0.85em;
     cursor: pointer;
 }
 
 select[multiple] {
     background-image: none;
-    padding-right: 0.6em;
+    padding-right: 0.4em;
 }
 
 select option,

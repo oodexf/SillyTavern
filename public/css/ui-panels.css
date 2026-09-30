@@ -1,0 +1,150 @@
+/*
+ * Shared patterns inside the settings panels (tabs, selectable lists, pagination),
+ * styled after shadcn/ui on the existing markup. Uses the tokens from css/tokens.css.
+ */
+
+/* ------------------------------------------------------------------ */
+/* Tabs (jQuery UI tabs in the Backgrounds panel)                     */
+/* ------------------------------------------------------------------ */
+
+#bg_tabs .bg_tabs_list {
+    gap: 4px;
+}
+
+#bg_tabs .bg_tabs_list .bg_tab_button {
+    min-width: 6em;
+    color: var(--ui-muted-foreground);
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--ui-radius-md);
+    font-weight: 500;
+    opacity: 1;
+    transition:
+        color var(--ui-transition),
+        background-color var(--ui-transition),
+        border-color var(--ui-transition);
+}
+
+#bg_tabs .bg_tabs_list .bg_tab_button a {
+    color: inherit;
+    padding: 0.3em 0.75em;
+}
+
+#bg_tabs .bg_tabs_list .bg_tab_button:hover {
+    color: var(--ui-foreground);
+    background-color: var(--ui-accent);
+}
+
+#bg_tabs .bg_tabs_list .bg_tab_button.ui-tabs-active {
+    color: var(--ui-foreground);
+    background-color: var(--ui-secondary);
+    border-color: var(--ui-border);
+    box-shadow: var(--ui-shadow-sm);
+}
+
+/* ------------------------------------------------------------------ */
+/* Selectable lists (characters, groups, folders, personas)           */
+/* ------------------------------------------------------------------ */
+
+.bogus_folder_select,
+.character_select,
+.avatar-container {
+    border-radius: var(--ui-radius-lg);
+    transition:
+        background-color var(--ui-transition),
+        border-color var(--ui-transition);
+}
+
+.bogus_folder_select:hover,
+.character_select:hover,
+.avatar-container:hover {
+    background-color: var(--ui-accent);
+}
+
+.avatar-container.selected {
+    border-color: var(--ui-ring);
+    background-color: var(--ui-secondary);
+}
+
+.character_select .ch_description,
+.avatar-container .ch_description,
+.avatar-container .ch_additional_info {
+    color: var(--ui-muted-foreground);
+}
+
+/* ------------------------------------------------------------------ */
+/* Pagination                                                         */
+/* ------------------------------------------------------------------ */
+
+.paginationjs-pages ul {
+    gap: 1px;
+}
+
+.paginationjs-pages ul li a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.25em;
+    height: 1.5em;
+    padding: 0 0.15em;
+    color: var(--ui-muted-foreground);
+    border: 1px solid transparent;
+    border-radius: var(--ui-radius-sm);
+    opacity: 1;
+    transition:
+        color var(--ui-transition),
+        background-color var(--ui-transition);
+}
+
+.paginationjs-pages ul li a:hover {
+    color: var(--ui-foreground);
+    background-color: var(--ui-accent);
+}
+
+.paginationjs-pages ul li.active a {
+    color: var(--ui-foreground);
+    background-color: var(--ui-secondary);
+    border-color: var(--ui-border);
+}
+
+.paginationjs-pages ul li.disabled a {
+    background-color: transparent;
+}
+
+.paginationjs-nav {
+    color: var(--ui-muted-foreground);
+    font-weight: 500;
+}
+
+/* ------------------------------------------------------------------ */
+/* Quick Reply settings                                               */
+/* ------------------------------------------------------------------ */
+
+/* Let header rows wrap instead of squeezing the title to one character per line */
+#qr--settings .qr--head {
+    flex-wrap: wrap;
+    row-gap: 0.25em;
+}
+
+#qr--settings .qr--head>.qr--title {
+    flex: 0 0 auto;
+}
+
+#qr--settings .qr--head>.qr--actions {
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+}
+
+#qr--settings .qr--head>.qr--actions>select {
+    flex: 1 1 auto;
+    min-width: 8em;
+}
+
+#qr--settings .qr--setList>.qr--item {
+    flex-wrap: wrap;
+}
+
+#qr--settings .qr--setList>.qr--item>select.qr--set {
+    flex: 1 1 5em;
+    min-width: 5em;
+}

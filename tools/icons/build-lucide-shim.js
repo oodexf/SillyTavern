@@ -229,7 +229,7 @@ for (const icon of [...new Set([...selectorsByIcon.keys(), ...referencedIcons])]
 const styleClasses = ['fa', 'fas', 'far', 'fab', 'fa-solid', 'fa-regular', 'fa-brands', 'fa-classic', 'fa-sharp', 'lucide'];
 const baseCss = `
 ${styleClasses.map(c => `.${c}`).join(',')}{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:var(--fa-display,inline-block);font-style:normal;font-variant:normal;line-height:1;text-rendering:auto}
-${styleClasses.map(c => `.${c}::before`).join(',')}{display:inline-block;width:1em;height:1em;vertical-align:-0.125em;background-color:currentColor;-webkit-mask:var(--st-icon) center/contain no-repeat;mask:var(--st-icon) center/contain no-repeat}
+${styleClasses.map(c => `.${c}::before`).join(',')}{display:inline-block;flex-shrink:0;width:1em;height:1em;vertical-align:-0.125em;background-color:currentColor;-webkit-mask:var(--st-icon) center/contain no-repeat;mask:var(--st-icon) center/contain no-repeat}
 `;
 
 const variableCss = `:root{${[
