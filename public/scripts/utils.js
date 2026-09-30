@@ -2587,10 +2587,14 @@ export async function fetchFaFile(name) {
     ;
 }
 
+/**
+ * Fetches the list of pickable icons. Icons are Lucide icons addressed by their
+ * Font Awesome class names, rendered by css/lucide-icons.css.
+ * @returns {Promise<string[][]>} Alias groups of icon class names (e.g. ['fa-xmark', 'fa-close'])
+ */
 export async function fetchFa() {
-    return [...new Set((await Promise.all([
-        fetchFaFile('fontawesome.min.css'),
-    ])).flat())];
+    const response = await fetch('/lib/lucide/fa-icons.json');
+    return await response.json();
 }
 /**
  * Opens a popup with all the available Font Awesome icons and returns the selected icon's name.

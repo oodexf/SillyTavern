@@ -12,7 +12,22 @@ import { SlashCommandEnumValue, enumTypes } from './SlashCommandEnumValue.js';
 /** @typedef {import('./SlashCommandScope.js').SlashCommandScope} SlashCommandScope */
 
 /**
- * A collection of regularly used enum icons
+ * Returns a short text label for a prompt role, for use in plain-text descriptions.
+ * @param {extension_prompt_roles} role - The role to get the label for
+ * @returns {string} The role label
+ */
+export function getRoleLabel(role) {
+    switch (role) {
+        case extension_prompt_roles.SYSTEM: return 'System';
+        case extension_prompt_roles.USER: return 'User';
+        case extension_prompt_roles.ASSISTANT: return 'AI';
+        default: return 'Unknown';
+    }
+}
+
+/**
+ * A collection of regularly used enum icons.
+ * Values are Lucide icon class names (rendered by `renderTypeIcon`) or short text symbols.
  */
 export const enumIcons = {
     default: '◊',
@@ -24,50 +39,50 @@ export const enumIcons = {
     scopeVariable: 'S',
 
     // Common types
-    character: '👤',
-    group: '🧑‍🤝‍🧑',
-    persona: '🧙‍♂️',
+    character: 'lucide-user',
+    group: 'lucide-users',
+    persona: 'lucide-smile',
     qr: 'QR',
     closure: '𝑓',
     macro: '{{',
-    tag: '🏷️',
-    world: '🌐',
-    preset: '⚙️',
-    file: '📄',
-    message: '💬',
-    reasoning: '💡',
-    voice: '🎤',
-    server: '🖥️',
-    popup: '🗔',
-    image: '🖼️',
-    video: '🎥',
-    key: '🔑',
-    spinner: '♻️',
-    stop: '🛑',
+    tag: 'lucide-tag',
+    world: 'lucide-book-marked',
+    preset: 'lucide-sliders-horizontal',
+    file: 'lucide-file',
+    message: 'lucide-message-circle',
+    reasoning: 'lucide-lightbulb',
+    voice: 'lucide-mic',
+    server: 'lucide-server',
+    popup: 'lucide-app-window',
+    image: 'lucide-image',
+    video: 'lucide-video',
+    key: 'lucide-key-round',
+    spinner: 'lucide-loader-circle',
+    stop: 'lucide-circle-stop',
 
-    true: '✔️',
-    false: '❌',
-    null: '🚫',
-    undefined: '❓',
+    true: 'lucide-check',
+    false: 'lucide-x',
+    null: 'lucide-ban',
+    undefined: 'lucide-circle-question-mark',
 
     // Value types
-    boolean: '🔲',
-    string: '📝',
-    number: '1️⃣',
+    boolean: 'lucide-toggle-left',
+    string: 'lucide-type',
+    number: 'lucide-hash',
     array: '[]',
-    enum: '📚',
+    enum: 'lucide-list',
     dictionary: '{}',
 
     // Roles
-    system: '⚙️',
-    user: '👤',
-    assistant: '🤖',
+    system: 'lucide-settings',
+    user: 'lucide-user',
+    assistant: 'lucide-bot',
 
     // WI Icons
-    constant: '🔵',
-    normal: '🟢',
-    disabled: '❌',
-    vectorized: '🔗',
+    constant: 'lucide-infinity',
+    normal: 'lucide-key-round',
+    disabled: 'lucide-circle-slash',
+    vectorized: 'lucide-link',
 
     /**
      * Returns the appropriate state icon based on a boolean
@@ -199,7 +214,7 @@ export const commonEnumProviders = {
         return [
             ...['all', 'character'].includes(mode) ? characters.map(char => new SlashCommandEnumValue(char.name, null, enumTypes.name, enumIcons.character)) : [],
             ...['all', 'group'].includes(mode) ? groups.map(group => new SlashCommandEnumValue(group.name, null, enumTypes.qr, enumIcons.group)) : [],
-            ...(name2 === neutralCharacterName) ? [new SlashCommandEnumValue(neutralCharacterName, null, enumTypes.name, '🥸')] : [],
+            ...(name2 === neutralCharacterName) ? [new SlashCommandEnumValue(neutralCharacterName, null, enumTypes.name, 'lucide-venetian-mask')] : [],
         ];
     },
 
@@ -264,7 +279,7 @@ export const commonEnumProviders = {
         const nameFilter = executor.namedArgumentList.find(it => it.name == 'name')?.value || '';
         return [
             ...chat.map((message, index) => new SlashCommandEnumValue(String(index), `${message.name}: ${message.mes}`, enumTypes.number, message.is_user ? enumIcons.user : message.is_system ? enumIcons.system : enumIcons.assistant)).filter(value => !nameFilter || value.description.startsWith(`${nameFilter}:`)),
-            ...allowIdAfter ? [new SlashCommandEnumValue(String(chat.length), '>> After Last Message >>', enumTypes.enum, '➕')] : [],
+            ...allowIdAfter ? [new SlashCommandEnumValue(String(chat.length), '>> After Last Message >>', enumTypes.enum, 'lucide-plus')] : [],
             ...allowVars ? commonEnumProviders.variables('all')(executor, scope) : [],
         ];
     },
@@ -316,8 +331,8 @@ export const commonEnumProviders = {
         return Object.entries(chat_metadata.script_injects)
             .map(([id, inject]) => {
                 const positionName = (Object.entries(extension_prompt_types)).find(([_, value]) => value === inject.position)?.[0] ?? 'unknown';
-                return new SlashCommandEnumValue(id, `${enumIcons.getRoleIcon(inject.role ?? extension_prompt_roles.SYSTEM)}[Inject](${positionName}, depth: ${inject.depth}, scan: ${inject.scan ?? false}) ${inject.value}`,
-                    enumTypes.enum, '💉');
+                return new SlashCommandEnumValue(id, `[${getRoleLabel(inject.role ?? extension_prompt_roles.SYSTEM)}] [Inject](${positionName}, depth: ${inject.depth}, scan: ${inject.scan ?? false}) ${inject.value}`,
+                    enumTypes.enum, 'lucide-syringe');
             });
     },
 

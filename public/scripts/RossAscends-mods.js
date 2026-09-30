@@ -329,16 +329,16 @@ function RA_checkOnlineStatus() {
         $('#send_but').addClass('displayNone'); //send button is hidden when not connected;
         $('#mes_continue').addClass('displayNone'); //continue button is hidden when not connected;
         $('#mes_impersonate').addClass('displayNone'); //continue button is hidden when not connected;
-        $('#API-status-top').removeClass('fa-plug');
-        $('#API-status-top').addClass('fa-plug-circle-exclamation redOverlayGlow');
+        $('#API-status-top').removeClass('lucide-plug-zap');
+        $('#API-status-top').addClass('lucide-unplug redOverlayGlow');
         connection_made = false;
     } else {
         if (online_status !== undefined && online_status !== 'no_connection') {
             const send_textarea = $('#send_textarea');
             send_textarea.attr('placeholder', send_textarea.attr('connected_text')); //on connect, placeholder tells user to type message
             $('#send_form').removeClass('no-connection');
-            $('#API-status-top').removeClass('fa-plug-circle-exclamation redOverlayGlow');
-            $('#API-status-top').addClass('fa-plug');
+            $('#API-status-top').removeClass('lucide-unplug redOverlayGlow');
+            $('#API-status-top').addClass('lucide-plug-zap');
             connection_made = true;
             retry_delay = 100;
 

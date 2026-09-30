@@ -653,7 +653,7 @@ export function buildEnhancedMacroOptions(context, textUpToCursor, { isForced = 
         if (!hasMatchingMacro) {
             const noMatchOption = new SimpleAutoCompleteOption({
                 name: context.identifier,
-                symbol: '❌',
+                symbol: 'lucide-x',
                 description: `No macro found: "${context.identifier}"`,
                 detailedDescription: `The macro name <code>${context.identifier}</code> does not exist.<br><br>Check spelling or use a different macro name.`,
                 type: 'error',
@@ -694,7 +694,7 @@ export function buildIfConditionOptions(context, allMacros, macroInnerText) {
 
     const inversionOption = new SimpleAutoCompleteOption({
         name: '!',
-        symbol: '🔁',
+        symbol: 'lucide-arrow-left-right',
         description: 'Invert condition (NOT)',
         detailedDescription: 'Inverts the condition result. If the condition is truthy, it becomes falsy, and vice versa.<br><br>Example: <code>{{if !myVar}}</code> executes when <code>myVar</code> is empty or zero.',
         type: 'inverse',

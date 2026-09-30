@@ -2373,7 +2373,7 @@ export async function init() {
             return expressions.map(expression => {
                 const spriteCount = spriteCache[spriteFolderName]?.find(x => x.label === expression)?.files.length ?? 0;
                 const isCustom = extension_settings.expressions.custom?.includes(expression);
-                const subtitle = spriteCount == 0 ? '❌ No sprites available for this expression' :
+                const subtitle = spriteCount == 0 ? 'No sprites available for this expression' :
                     spriteCount > 1 ? `${spriteCount} sprites` : null;
                 return new SlashCommandEnumValue(expression,
                     subtitle,
@@ -2419,7 +2419,7 @@ export async function init() {
                     if (type == 'sprite') return localEnumProviders.sprites();
                     else return [
                         ...localEnumProviders.expressions(),
-                        new SlashCommandEnumValue(RESET_SPRITE_LABEL, 'Resets the expression (to either default or no sprite)', enumTypes.enum, '❌'),
+                        new SlashCommandEnumValue(RESET_SPRITE_LABEL, 'Resets the expression (to either default or no sprite)', enumTypes.enum, 'lucide-x'),
                     ];
                 },
             }),

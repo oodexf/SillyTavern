@@ -51,7 +51,7 @@ export function registerActionLoaderSlashCommands() {
         loaderHandleProvider: () => getActiveLoaderHandles().map(
             handle => new SlashCommandEnumValue(handle.id, `Active loader: ${handle.id}`, enumTypes.enum, enumIcons.spinner),
         ).concat(
-            new SlashCommandEnumValue('Temporary loader handle', 'Any loader handle saved in variables or similar', 'enum', '📄', () => true, () => ''),
+            new SlashCommandEnumValue('Temporary loader handle', 'Any loader handle saved in variables or similar', 'enum', 'lucide-loader-circle', () => true, () => ''),
         ),
     };
 

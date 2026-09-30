@@ -269,16 +269,19 @@
 }
 
 .rm_tag_bogus_drilldown .tag:not(:first-child)::before {
-    font-family: 'Font Awesome 6 Free';
-    content: "\f054";
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: currentColor;
+    -webkit-mask: var(--st-icon) center/contain no-repeat;
+    mask: var(--st-icon) center/contain no-repeat;
+    --st-icon: var(--lucide-chevron-right);
     position: absolute;
     left: -1em;
     top: auto;
     color: var(--SmartThemeBodyColor);
-    text-shadow: 1px 1px 0px black,
-        -1px -1px 0px black,
-        -1px 1px 0px black,
-        1px -1px 0px black;
+    filter: drop-shadow(0 0 1px black);
     opacity: 1;
 }
 

@@ -266,7 +266,7 @@ export async function init() {
 
             return attachments.map(attachment => new SlashCommandEnumValue(
                 returnField === 'name' ? attachment.name : attachment.url,
-                `${enumIcons.getStateIcon(!extension_settings.disabled_attachments.includes(attachment.url))} [${source}] ${returnField === 'url' ? attachment.name : attachment.url}`,
+                `${extension_settings.disabled_attachments.includes(attachment.url) ? '(disabled) ' : ''}[${source}] ${returnField === 'url' ? attachment.name : attachment.url}`,
                 enumTypes.enum, enumIcons.file));
         },
     };

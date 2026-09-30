@@ -1096,8 +1096,8 @@ export async function init() {
                 typeList: [ARGUMENT_TYPE.NUMBER],
                 defaultValue: '3000',
                 enumList: [
-                    new SlashCommandEnumValue('infinite', 'Keep the streaming display open until manually closed', 'command', '♾️'),
-                    new SlashCommandEnumValue('any delay in seconds', null, 'number', '⌚', () => true, input => input),
+                    new SlashCommandEnumValue('infinite', 'Keep the streaming display open until manually closed', 'command', 'lucide-infinity'),
+                    new SlashCommandEnumValue('any delay in seconds', null, 'number', 'lucide-timer', () => true, input => input),
                 ],
             }),
             SlashCommandNamedArgument.fromProps({

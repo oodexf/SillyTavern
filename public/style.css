@@ -343,7 +343,8 @@ input[type='checkbox']:focus-visible {
 }
 
 .fa-solid::before,
-.fa-regular::before {
+.fa-regular::before,
+.lucide::before {
     vertical-align: middle;
     text-align: center;
 }
@@ -3114,19 +3115,25 @@ select option[disabled]:not(:checked) {
 }
 
 .menu_button.toggleable::before {
-    font-family: "Font Awesome 6 Free";
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: currentColor;
+    -webkit-mask: var(--st-icon) center/contain no-repeat;
+    mask: var(--st-icon) center/contain no-repeat;
     margin-left: 10px;
     position: absolute;
     left: 0;
 }
 
 .menu_button.toggleable.toggled::before {
-    content: "\f00c";
+    --st-icon: var(--lucide-check);
     color: var(--active);
 }
 
 .menu_button.toggleable:not(.toggled)::before {
-    content: "\f00d";
+    --st-icon: var(--lucide-x);
     color: var(--fullred);
 }
 
@@ -3937,11 +3944,19 @@ grammarly-extension {
 }
 
 .prompt_order .toggle_button::after {
-    content: '☑';
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+    background-color: currentColor;
+    -webkit-mask: var(--st-icon) center/contain no-repeat;
+    mask: var(--st-icon) center/contain no-repeat;
+    --st-icon: var(--lucide-square-check);
 }
 
 .prompt_order .disabled .toggle_button::after {
-    content: '☐';
+    --st-icon: var(--lucide-square);
 }
 
 .online_status {
@@ -6016,7 +6031,6 @@ body:not(.movingUI) .drawer-content.maximized {
 
 .paginationjs-pages ul li a {
     padding: 0.25em;
-    font-family: 'Font Awesome 6 Free';
     text-decoration: none;
     color: var(--SmartThemeBodyColor);
     border: 1px solid var(--SmartThemeBorderColor);
