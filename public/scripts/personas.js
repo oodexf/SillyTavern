@@ -2496,12 +2496,12 @@ function registerPersonaSlashCommands() {
             typeList: [ARGUMENT_TYPE.STRING],
             isRequired: requiredFields.includes('avatar'),
             enumList: [
-                new SlashCommandEnumValue('prompt', 'Open file picker to select an image', enumTypes.enum, '📁'),
-                new SlashCommandEnumValue('characters/...', 'Character avatars path (e.g., characters/Name.png)', enumTypes.enum, '📄', (input) => commonEnumMatchProviders.folderEnum(input, 'characters/'), () => 'characters/'),
-                new SlashCommandEnumValue('backgrounds/...', 'Background image path', enumTypes.enum, '📄', (input) => commonEnumMatchProviders.folderEnum(input, 'backgrounds/'), () => 'backgrounds/'),
-                new SlashCommandEnumValue('User Avatars/...', 'User avatar path', enumTypes.enum, '📄', (input) => commonEnumMatchProviders.folderEnum(input, 'User Avatars/'), () => 'User Avatars/'),
-                new SlashCommandEnumValue('assets/...', 'Asset file path', enumTypes.enum, '📄', (input) => commonEnumMatchProviders.folderEnum(input, 'assets/'), () => 'assets/'),
-                new SlashCommandEnumValue('user/images/...', 'User image path', enumTypes.enum, '📄', (input) => commonEnumMatchProviders.folderEnum(input, 'user/images/'), () => 'user/images/'),
+                new SlashCommandEnumValue('prompt', 'Open file picker to select an image', enumTypes.enum, 'lucide-folder-open'),
+                new SlashCommandEnumValue('characters/...', 'Character avatars path (e.g., characters/Name.png)', enumTypes.enum, 'lucide-file', (input) => commonEnumMatchProviders.folderEnum(input, 'characters/'), () => 'characters/'),
+                new SlashCommandEnumValue('backgrounds/...', 'Background image path', enumTypes.enum, 'lucide-file', (input) => commonEnumMatchProviders.folderEnum(input, 'backgrounds/'), () => 'backgrounds/'),
+                new SlashCommandEnumValue('User Avatars/...', 'User avatar path', enumTypes.enum, 'lucide-file', (input) => commonEnumMatchProviders.folderEnum(input, 'User Avatars/'), () => 'User Avatars/'),
+                new SlashCommandEnumValue('assets/...', 'Asset file path', enumTypes.enum, 'lucide-file', (input) => commonEnumMatchProviders.folderEnum(input, 'assets/'), () => 'assets/'),
+                new SlashCommandEnumValue('user/images/...', 'User image path', enumTypes.enum, 'lucide-file', (input) => commonEnumMatchProviders.folderEnum(input, 'user/images/'), () => 'user/images/'),
             ],
         }),
         SlashCommandNamedArgument.fromProps({
@@ -2715,7 +2715,7 @@ function registerPersonaSlashCommands() {
             ${t`If no <code>persona</code> argument is provided, deletes the currently active persona.`}
         </div>
         <div>
-            <strong>⚠️ ${t`Warning:`}</strong> ${t`This action is irreversible. All data associated with the persona will be lost.`}
+            <strong><i class="lucide lucide-triangle-alert"></i> ${t`Warning:`}</strong> ${t`This action is irreversible. All data associated with the persona will be lost.`}
         </div>
         <div>
             <strong>${t`Example:`}</strong>

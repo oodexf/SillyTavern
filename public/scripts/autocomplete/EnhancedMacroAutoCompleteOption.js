@@ -3,7 +3,7 @@
  * Reuses rendering logic from MacroBrowser for consistency and DRY.
  */
 
-import { AutoCompleteOption } from './AutoCompleteOption.js';
+import { AutoCompleteOption, renderTypeIcon } from './AutoCompleteOption.js';
 import {
     formatMacroSignature,
     createSourceIndicator,
@@ -451,7 +451,7 @@ export class MacroFlagAutoCompleteOption extends AutoCompleteOption {
     constructor(flagDef) {
         // Use the flag symbol as the name, with a flag icon
         // Display name includes both symbol and name for clarity
-        super(flagDef.type, '🚩');
+        super(flagDef.type, 'lucide-flag');
         this.#flagDef = flagDef;
     }
 
@@ -469,7 +469,7 @@ export class MacroFlagAutoCompleteOption extends AutoCompleteOption {
         // Use base class makeItem for consistent styling
         const li = this.makeItem(
             `${this.#flagDef.type} ${this.#flagDef.name}`, // Display: "? Optional"
-            '🚩',
+            'lucide-flag',
             true, // noSlash
             [], // namedArguments
             [], // unnamedArguments
@@ -600,7 +600,7 @@ export class VariableShorthandAutoCompleteOption extends AutoCompleteOption {
      */
     constructor(varDef) {
         // Use the prefix symbol as the name, with a variable icon
-        super(varDef.type, '📦');
+        super(varDef.type, 'lucide-package');
         this.#varDef = varDef;
     }
 
@@ -616,7 +616,7 @@ export class VariableShorthandAutoCompleteOption extends AutoCompleteOption {
     renderItem() {
         const li = this.makeItem(
             `${this.#varDef.type} ${this.#varDef.name}`,
-            '📦',
+            'lucide-package',
             true, // noSlash
             [], // namedArguments
             [], // unnamedArguments
@@ -762,7 +762,7 @@ export class VariableNameAutoCompleteOption extends AutoCompleteOption {
         const scopeLabel = this.#scope === 'local' ? 'Local' : 'Global';
         let description;
         if (this.#isInvalidName) {
-            description = '⚠️ Invalid variable name for shorthand';
+            description = 'Invalid variable name for shorthand';
         } else if (this.#isNewVariable) {
             description = `Define new ${scopeLabel.toLowerCase()} variable`;
         } else {
@@ -810,7 +810,7 @@ export class VariableNameAutoCompleteOption extends AutoCompleteOption {
 
             const warningHeader = document.createElement('h3');
             warningHeader.style.cssText = 'color: #ff6b6b; margin: 0 0 8px 0;';
-            warningHeader.textContent = '⚠️ Invalid Variable Name';
+            warningHeader.innerHTML = '<i class="lucide lucide-triangle-alert"></i> Invalid Variable Name';
             warningBox.append(warningHeader);
 
             const warningText = document.createElement('p');
@@ -1004,7 +1004,7 @@ export class VariableOperatorAutoCompleteOption extends AutoCompleteOption {
      * @param {{ symbol: string, name: string, description: string, needsValue: boolean }} operatorDef - The operator definition.
      */
     constructor(operatorDef) {
-        super(operatorDef.symbol, '⚡');
+        super(operatorDef.symbol, 'lucide-zap');
         this.#operatorDef = operatorDef;
     }
 
@@ -1020,7 +1020,7 @@ export class VariableOperatorAutoCompleteOption extends AutoCompleteOption {
     renderItem() {
         const li = this.makeItem(
             `${this.#operatorDef.symbol} ${this.#operatorDef.name}`,
-            '⚡',
+            'lucide-zap',
             true, // noSlash
             [], // namedArguments
             [], // unnamedArguments
@@ -1080,7 +1080,7 @@ export class VariableValueContextAutoCompleteOption extends AutoCompleteOption {
      * @param {string} [currentValue=''] - The value currently being typed.
      */
     constructor(operatorDef, currentValue = '') {
-        super('value', '📝');
+        super('value', 'lucide-type');
         this.#operatorDef = operatorDef;
         this.#currentValue = currentValue;
         this.forceFullNameMatch = true;
@@ -1098,7 +1098,7 @@ export class VariableValueContextAutoCompleteOption extends AutoCompleteOption {
     renderItem() {
         const li = this.makeItem(
             '<value>',
-            '📝',
+            'lucide-type',
             true, // noSlash
             [], // namedArguments
             [], // unnamedArguments
@@ -1228,7 +1228,7 @@ export class MacroClosingTagAutoCompleteOption extends AutoCompleteOption {
         // Type icon (same column as other macros)
         const type = document.createElement('span');
         type.classList.add('type', 'monospace');
-        type.textContent = this.typeIcon;
+        renderTypeIcon(type, this.typeIcon);
         li.append(type);
 
         // Specs container (for fuzzy highlight compatibility)
@@ -1811,7 +1811,7 @@ export class SimpleAutoCompleteOption extends AutoCompleteOption {
         // Type icon
         const typeSpan = document.createElement('span');
         typeSpan.classList.add('type', 'monospace');
-        typeSpan.textContent = this.typeIcon;
+        renderTypeIcon(typeSpan, this.typeIcon);
         li.append(typeSpan);
 
         // Name

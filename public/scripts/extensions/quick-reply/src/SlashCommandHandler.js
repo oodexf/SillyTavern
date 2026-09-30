@@ -23,17 +23,17 @@ export class SlashCommandHandler {
 
     init() {
         function getExecutionIcons(/** @type {QuickReply} */ qr) {
-            let icons = '';
-            if (qr.preventAutoExecute) icons += '🚫';
-            if (qr.isHidden) icons += '👁️';
-            if (qr.executeOnStartup) icons += '🚀';
-            if (qr.executeOnUser) icons += enumIcons.user;
-            if (qr.executeOnAi) icons += enumIcons.assistant;
-            if (qr.executeOnChatChange) icons += '💬';
-            if (qr.executeOnNewChat) icons += '🆕';
-            if (qr.executeOnGroupMemberDraft) icons += enumIcons.group;
-            if (qr.executeBeforeGeneration) icons += '✈️';
-            return icons;
+            const flags = [];
+            if (qr.preventAutoExecute) flags.push('no-auto');
+            if (qr.isHidden) flags.push('hidden');
+            if (qr.executeOnStartup) flags.push('startup');
+            if (qr.executeOnUser) flags.push('user');
+            if (qr.executeOnAi) flags.push('ai');
+            if (qr.executeOnChatChange) flags.push('chat-change');
+            if (qr.executeOnNewChat) flags.push('new-chat');
+            if (qr.executeOnGroupMemberDraft) flags.push('group-draft');
+            if (qr.executeBeforeGeneration) flags.push('before-gen');
+            return flags.join(', ');
         }
 
         const localEnumProviders = {

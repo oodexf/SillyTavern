@@ -177,13 +177,20 @@ img.expression.default {
     color: darkolivegreen;
 }
 #image_list .expression_list_item[data-expression-type="additional"] .expression_list_title::before {
-    content: '➕';
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+    background-color: currentColor;
+    -webkit-mask: var(--st-icon) center/contain no-repeat;
+    mask: var(--st-icon) center/contain no-repeat;
+    --st-icon: var(--lucide-plus);
     position: absolute;
     top: -7px;
     left: -9px;
     font-size: 14px;
-    color: transparent;
-    text-shadow: 0 0 0 darkolivegreen;
+    color: darkolivegreen;
 }
 
 #image_list .expression_list_item[data-expression-type="failure"] .expression_list_title {

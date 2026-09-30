@@ -1,0 +1,75 @@
+/*
+ * Design tokens (shadcn/ui naming, `--ui-` prefixed).
+ *
+ * Every color is derived from the active theme's --SmartTheme* variables, so built-in themes,
+ * imported themes and the color pickers in User Settings keep working unchanged.
+ * Components in css/ui-components.css should only use these tokens.
+ */
+:root {
+    /* Surfaces */
+    --ui-background: var(--SmartThemeBlurTintColor);
+    --ui-foreground: var(--SmartThemeBodyColor);
+    --ui-popover: var(--SmartThemeBlurTintColor);
+    --ui-popover-foreground: var(--SmartThemeBodyColor);
+
+    /* Neutral fills, from subtle to strong (foreground mixed into transparency) */
+    --ui-muted: color-mix(in srgb, var(--SmartThemeBodyColor) 6%, transparent);
+    --ui-muted-foreground: color-mix(in srgb, var(--SmartThemeBodyColor) 62%, transparent);
+    --ui-secondary: color-mix(in srgb, var(--SmartThemeBodyColor) 8%, transparent);
+    --ui-accent: color-mix(in srgb, var(--SmartThemeBodyColor) 13%, transparent);
+    --ui-accent-strong: color-mix(in srgb, var(--SmartThemeBodyColor) 20%, transparent);
+
+    /* Primary action: inverted foreground/background, like shadcn's default button */
+    --ui-primary: var(--SmartThemeBodyColor);
+    --ui-primary-foreground: var(--SmartThemeBlurTintColor);
+    --ui-primary-hover: color-mix(in srgb, var(--SmartThemeBodyColor) 88%, transparent);
+
+    --ui-destructive: rgb(220, 38, 38);
+    --ui-destructive-hover: rgb(185, 28, 28);
+    --ui-destructive-foreground: rgb(255, 255, 255);
+    --ui-success: rgb(34, 197, 94);
+    --ui-warning: rgb(245, 158, 11);
+    --ui-info: rgb(59, 130, 246);
+
+    /* Lines and focus */
+    /* Borders stay visible on any background, tinted by the theme's own border color */
+    --ui-border-base: color-mix(in srgb, var(--SmartThemeBodyColor) 16%, transparent);
+    --ui-border: color-mix(in srgb, var(--ui-border-base) 75%, var(--SmartThemeBorderColor));
+    --ui-input: color-mix(in srgb, var(--SmartThemeBodyColor) 20%, transparent);
+    --ui-input-background: color-mix(in srgb, var(--SmartThemeBodyColor) 4%, transparent);
+    --ui-ring: color-mix(in srgb, var(--SmartThemeBodyColor) 55%, transparent);
+    --ui-ring-soft: color-mix(in srgb, var(--SmartThemeBodyColor) 22%, transparent);
+
+    /* Shape */
+    --ui-radius: 0.5rem;
+    --ui-radius-sm: calc(var(--ui-radius) - 4px);
+    --ui-radius-md: calc(var(--ui-radius) - 2px);
+    --ui-radius-lg: var(--ui-radius);
+    --ui-radius-xl: calc(var(--ui-radius) + 4px);
+
+    /* Elevation */
+    --ui-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.12);
+    --ui-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.18), 0 2px 4px -2px rgba(0, 0, 0, 0.18);
+    --ui-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -4px rgba(0, 0, 0, 0.25);
+    --ui-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+
+    /* Motion */
+    --ui-transition: var(--animation-duration-2x) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Solid versions of translucent theme colors, where the browser supports relative color syntax */
+@supports (color: rgb(from red r g b)) {
+    :root {
+        --ui-popover: rgb(from var(--SmartThemeBlurTintColor) r g b / max(alpha, 0.92));
+        --ui-primary-foreground: rgb(from var(--SmartThemeBlurTintColor) r g b);
+    }
+}
+
+/*
+ * Legacy rules draw borders with --SmartThemeBorderColor, which most themes set to near-black.
+ * Below the root, point it at the (theme-tinted) border token so old and new borders match.
+ * --ui-border itself is resolved on :root from the theme value, so this does not loop.
+ */
+body {
+    --SmartThemeBorderColor: var(--ui-border);
+}

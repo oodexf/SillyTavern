@@ -149,7 +149,7 @@ export class QuickReply {
                 }
                 const expander = document.createElement('div'); {
                     expander.classList.add('qr--button-expander');
-                    expander.textContent = '⋮';
+                    expander.classList.add('lucide', 'lucide-ellipsis-vertical');
                     expander.title = 'Open context menu';
                     expander.addEventListener('click', (evt) => {
                         evt.stopPropagation();
@@ -235,7 +235,7 @@ export class QuickReply {
                     const drag = document.createElement('div'); {
                         drag.classList.add('drag-handle');
                         drag.classList.add('ui-sortable-handle');
-                        drag.textContent = '☰';
+                        drag.classList.add('lucide', 'lucide-grip-vertical');
                         itemContent.append(drag);
                     }
                     const lblContainer = document.createElement('div'); {
@@ -275,7 +275,7 @@ export class QuickReply {
                         opt.classList.add('menu_button');
                         opt.classList.add('fa-fw');
                         opt.classList.add('fa-solid');
-                        opt.textContent = '⁝';
+                        opt.classList.add('fa-ellipsis-vertical');
                         opt.title = 'Additional options:\n - large editor\n - context menu\n - auto-execution\n - tooltip';
                         opt.addEventListener('click', () => this.showEditor());
                         optContainer.append(opt);

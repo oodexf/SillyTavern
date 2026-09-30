@@ -21,9 +21,7 @@
     <link rel="manifest" crossorigin="use-credentials" href="manifest.json">
     <link href="webfonts/NotoSans/stylesheet.css" rel="stylesheet">
     <link href="webfonts/NotoSansMono/stylesheet.css" rel="stylesheet">
-    <link href="css/fontawesome.min.css" rel="stylesheet">
-    <link href="css/solid.min.css" rel="stylesheet">
-    <link href="css/brands.min.css" rel="stylesheet">
+    <link href="css/lucide-icons.css" rel="stylesheet">
     <link href="css/jquery-ui.min.css" rel="stylesheet">
     <link href="css/bright.min.css" rel="stylesheet">
     <link href="css/cropper.min.css" rel="stylesheet">
@@ -43,6 +41,10 @@
     <link rel="stylesheet" type="text/css" href="css/select2-overrides.css">
     <link rel="stylesheet" type="text/css" href="css/mobile-styles.css">
     <link rel="stylesheet" type="text/css" href="css/macros.css">
+    <link rel="stylesheet" type="text/css" href="css/tokens.css">
+    <link rel="stylesheet" type="text/css" href="css/ui-components.css">
+    <link rel="stylesheet" type="text/css" href="css/ui-layout.css">
+    <link rel="stylesheet" type="text/css" href="css/ui-panels.css">
     <link rel="stylesheet" type="text/css" href="css/user.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <!-- Scripts are loaded at the end of the body to improve page load speed -->
@@ -67,7 +69,7 @@
         <!-- background selection menu -->
         <div id="ai-config-button" class="drawer">
             <div class="drawer-toggle drawer-header">
-                <div id="leftNavDrawerIcon" class="drawer-icon fa-solid fa-sliders fa-fw closedIcon" title="AI Response Configuration" data-i18n="[title]AI Response Configuration"></div>
+                <div id="leftNavDrawerIcon" class="drawer-icon lucide lucide-brain-circuit fa-fw closedIcon" title="AI Response Configuration" data-i18n="[title]AI Response Configuration"></div>
             </div>
             <div id="left-nav-panel" class="drawer-content fillLeft closedDrawer">
                 <div id="left-nav-panelheader" class="fa-solid fa-grip drag-grabber"></div>
@@ -2281,7 +2283,7 @@
         </div>
         <div id="sys-settings-button" class="drawer">
             <div class="drawer-toggle drawer-header">
-                <div id="API-status-top" class="drawer-icon fa-solid fa-plug-circle-exclamation fa-fw closedIcon" title="API Connections" data-i18n="[title]API Connections;[no_connection_text]api_no_connection" no_connection_text="No connection..."></div>
+                <div id="API-status-top" class="drawer-icon lucide lucide-unplug fa-fw closedIcon" title="API Connections" data-i18n="[title]API Connections;[no_connection_text]api_no_connection" no_connection_text="No connection..."></div>
             </div>
             <div id="rm_api_block" class="drawer-content closedDrawer">
                 <h3 class="margin0" id="title_api">API</h3>
@@ -4082,7 +4084,7 @@
                     <label for="auto-connect-checkbox" class="checkbox_label"><input id="auto-connect-checkbox" type="checkbox" />
                         <span data-i18n="Auto-connect to Last Server">Auto-connect to Last Server</span>
                     </label>
-                    <a id="viewSecrets" href="javascript:void(0);" data-i18n="[missing_key_text]Missing key;[key_saved_text]Key saved" missing_key_text="❌ Missing key" key_saved_text="✔️ Key saved">
+                    <a id="viewSecrets" href="javascript:void(0);" data-i18n="[missing_key_text]Missing key;[key_saved_text]Key saved" missing_key_text="Missing key" key_saved_text="Key saved">
                         <span data-i18n="View hidden API keys">View hidden API keys</span>
                     </a>
                 </div>
@@ -4090,7 +4092,7 @@
         </div>
         <div id="advanced-formatting-button" class="drawer">
             <div class="drawer-toggle">
-                <div class="drawer-icon fa-solid fa-font fa-fw closedIcon" title="AI Response Formatting" data-i18n="[title]AI Response Formatting"></div>
+                <div class="drawer-icon lucide lucide-scroll-text fa-fw closedIcon" title="AI Response Formatting" data-i18n="[title]AI Response Formatting"></div>
             </div>
             <div id="AdvancedFormatting" class="drawer-content closedDrawer">
                 <div class="flex-container alignItemsBaseline">
@@ -4670,7 +4672,7 @@
         </div>
         <div id="WI-SP-button" class="drawer">
             <div class="drawer-toggle drawer-header">
-                <div id="WIDrawerIcon" class="drawer-icon fa-solid fa-book-atlas fa-fw closedIcon " title="World Info" data-i18n="[title]World Info"></div>
+                <div id="WIDrawerIcon" class="drawer-icon lucide lucide-book-open-text fa-fw closedIcon" title="World Info" data-i18n="[title]World Info"></div>
             </div>
             <div id="WorldInfo" class="drawer-content closedDrawer">
                 <div id="WorldInfoheader" class="fa-solid fa-grip drag-grabber"></div>
@@ -4855,16 +4857,16 @@
                                 <option data-rule="custom" value="13" data-i18n="Custom">Custom</option>
                                 <option data-order="asc" data-field="comment" value="1" data-i18n="Title A-Z">Title A-Z</option>
                                 <option data-order="desc" data-field="comment" value="2" data-i18n="Title Z-A">Title Z-A</option>
-                                <option data-order="asc" data-field="content" data-rule="length" value="3" data-i18n="Tokens ↗">Tokens ↗</option>
-                                <option data-order="desc" data-field="content" data-rule="length" value="4" data-i18n="Tokens ↘">Tokens ↘</option>
-                                <option data-order="asc" data-field="depth" value="5" data-i18n="Depth ↗">Depth ↗</option>
-                                <option data-order="desc" data-field="depth" value="6" data-i18n="Depth ↘">Depth ↘</option>
-                                <option data-order="asc" data-field="order" value="7" data-i18n="Order ↗">Order ↗</option>
-                                <option data-order="desc" data-field="order" value="8" data-i18n="Order ↘">Order ↘</option>
-                                <option data-order="asc" data-field="uid" value="9" data-i18n="UID ↗">UID ↗</option>
-                                <option data-order="desc" data-field="uid" value="10" data-i18n="UID ↘">UID ↘</option>
-                                <option data-order="asc" data-field="probability" value="11" data-i18n="Trigger% ↗">Trigger% ↗</option>
-                                <option data-order="desc" data-field="probability" value="12" data-i18n="Trigger% ↘">Trigger% ↘</option>
+                                <option data-order="asc" data-field="content" data-rule="length" value="3" data-i18n="Tokens ↑">Tokens ↑</option>
+                                <option data-order="desc" data-field="content" data-rule="length" value="4" data-i18n="Tokens ↓">Tokens ↓</option>
+                                <option data-order="asc" data-field="depth" value="5" data-i18n="Depth ↑">Depth ↑</option>
+                                <option data-order="desc" data-field="depth" value="6" data-i18n="Depth ↓">Depth ↓</option>
+                                <option data-order="asc" data-field="order" value="7" data-i18n="Order ↑">Order ↑</option>
+                                <option data-order="desc" data-field="order" value="8" data-i18n="Order ↓">Order ↓</option>
+                                <option data-order="asc" data-field="uid" value="9" data-i18n="UID ↑">UID ↑</option>
+                                <option data-order="desc" data-field="uid" value="10" data-i18n="UID ↓">UID ↓</option>
+                                <option data-order="asc" data-field="probability" value="11" data-i18n="Trigger% ↑">Trigger% ↑</option>
+                                <option data-order="desc" data-field="probability" value="12" data-i18n="Trigger% ↓">Trigger% ↓</option>
                             </select>
                             <div id="world_refresh" class="menu_button fa-solid fa-arrows-rotate" title="Refresh" data-i18n="[title]Refresh"></div>
                             <div id="world_info_pagination"></div>
@@ -4877,7 +4879,7 @@
         </div>
         <div id="user-settings-button" class="drawer">
             <div class="drawer-toggle">
-                <div class="drawer-icon fa-solid fa-user-cog fa-fw closedIcon" title="User Settings" data-i18n="[title]User Settings"></div>
+                <div class="drawer-icon lucide lucide-settings fa-fw closedIcon" title="User Settings" data-i18n="[title]User Settings"></div>
             </div>
             <div id="user-settings-block" class="drawer-content closedDrawer">
                 <div class="flex-container flexFlowColumn">
@@ -5652,7 +5654,7 @@
         </div>
         <div id="backgrounds-button" class="drawer">
             <div id="backgrounds-drawer-toggle" class="drawer-toggle drawer-header" title="Change Background Image" data-i18n="[title]Change Background Image">
-                <div class="drawer-icon fa-solid fa-panorama fa-fw closedIcon"></div>
+                <div class="drawer-icon lucide lucide-wallpaper fa-fw closedIcon"></div>
             </div>
             <div id="Backgrounds" class="drawer-content closedDrawer bg-drawer-layout">
                 <div id="bg-header-fixed">
@@ -5749,7 +5751,7 @@
         </div>
         <div id="extensions-settings-button" class="drawer">
             <div class="drawer-toggle">
-                <div class="drawer-icon fa-solid fa-cubes fa-fw closedIcon" title="Extensions" data-i18n="[title]Extensions"></div>
+                <div class="drawer-icon lucide lucide-puzzle fa-fw closedIcon" title="Extensions" data-i18n="[title]Extensions"></div>
             </div>
             <div id="rm_extensions_block" class="drawer-content closedDrawer">
                 <div class="extensions_block flex-container">
@@ -5832,7 +5834,7 @@
         </div>
         <div id="persona-management-button" class="drawer">
             <div class="drawer-toggle">
-                <div class="drawer-icon fa-solid fa-face-smile fa-fw closedIcon" title="Persona Management" data-i18n="[title]Persona Management"></div>
+                <div class="drawer-icon lucide lucide-circle-user-round fa-fw closedIcon" title="Persona Management" data-i18n="[title]Persona Management"></div>
             </div>
             <div id="PersonaManagement" class="drawer-content closedDrawer">
                 <div class="flex-container wide100p alignitemscenter spaceBetween flexNoGap">
@@ -6000,7 +6002,7 @@
         </div>
         <div id="rightNavHolder" class="drawer">
             <div id="unimportantYes" class="drawer-toggle drawer-header">
-                <div id="rightNavDrawerIcon" class="drawer-icon fa-solid fa-address-card fa-fw closedIcon" title="Character Management" data-i18n="[title]Character Management">
+                <div id="rightNavDrawerIcon" class="drawer-icon lucide lucide-users-round fa-fw closedIcon" title="Character Management" data-i18n="[title]Character Management">
                 </div>
             </div>
             <nav id="right-nav-panel" class="drawer-content closedDrawer fillRight">
@@ -6073,7 +6075,7 @@
                                                 <div id="advanced_div" class="menu_button fa-solid fa-book " title="Advanced Definitions" data-i18n="[title]Advanced Definition"></div>
                                                 <div id="world_button" class="menu_button fa-solid fa-globe" title="Character Lore&#10;&#10;Click to load&#10;Shift/Alt-click or long-press to open 'Link to World Info' popup" data-i18n="[title]world_button_title"></div>
                                                 <div class="chat_lorebook_button menu_button fa-solid fa-passport" title="Chat Lore&#10;&#10;Click to load&#10;Shift/Alt-click or long-press to open 'Link to Chat Lorebook' popup" data-i18n="[title]chat_lorebook_button_title"></div>
-                                                <div id="char_connections_button" class="menu_button fa-solid fa-face-smile" title="Connected Personas" data-i18n="[title]Connected Personas"></div>
+                                                <div id="char_connections_button" class="menu_button lucide lucide-circle-user-round" title="Connected Personas" data-i18n="[title]Connected Personas"></div>
                                                 <div id="export_button" class="menu_button fa-solid fa-file-export " title="Export and Download" data-i18n="[title]Export and Download"></div>
                                                 <!-- <div id="set_chat_character_settings" class="menu_button fa-solid fa-scroll" title="Set a chat scenario override"></div> -->
                                                 <!-- <div id="set_character_world" class="menu_button fa-solid fa-globe" title="Set a character World Info / Lorebook"></div> -->
@@ -6801,7 +6803,7 @@
         </div>
         <div id="tag_view_template" class="template_element">
             <div class="tag_view_item">
-                <div class="drag-handle" data-i18n="[title]Drag to reorder tag">☰</div>
+                <div class="drag-handle lucide lucide-grip-vertical" data-i18n="[title]Drag to reorder tag"></div>
                 <div title="Tag as folder" class="tag_as_folder fa-solid fa-folder-open right_menu_button" data-i18n="[title]Use tag as folder">
                     <span class="tag_folder_indicator"></span>
                 </div>
@@ -6826,8 +6828,8 @@
                             <small class="textAlignCenter" data-i18n="Primary Keywords">Primary Keywords</small>
                             <select class="keyprimaryselect keyselect" name="key" data-i18n="[placeholder]Keywords or Regexes" placeholder="Keywords or Regexes" multiple="multiple"></select>
                             <textarea class="text_pole keyprimarytextpole mobile" name="key" rows="1" data-i18n="[placeholder]Comma separated list" placeholder="Comma separated list" style="display: none;"></textarea>
-                            <button type="button" class="switch_input_type_icon" tabindex="-1" title="Switch to plaintext mode" data-i18n="[title]Switch to plaintext mode" data-icon-on="✨" data-icon-off="⌨️" data-tooltip-on="Switch to fancy mode" data-tooltip-off="Switch to plaintext mode">
-                                ⌨️
+                            <button type="button" class="switch_input_type_icon" tabindex="-1" title="Switch to plaintext mode" data-i18n="[title]Switch to plaintext mode" data-icon-on="lucide-sparkles" data-icon-off="lucide-keyboard" data-tooltip-on="Switch to fancy mode" data-tooltip-off="Switch to plaintext mode">
+                                <i class="lucide lucide-keyboard"></i>
                             </button>
                         </div>
                         <div class="world_entry_form_control">
@@ -6848,8 +6850,8 @@
                             <small class="textAlignCenter" data-i18n="Optional Filter">Optional Filter</small>
                             <select class="keysecondaryselect keyselect" name="keysecondary" data-i18n="[placeholder]Keywords or Regexes (ignored if empty)" placeholder="Keywords or Regexes (ignored if empty)" multiple="multiple"></select>
                             <textarea class="text_pole keysecondarytextpole mobile" name="keysecondary" rows="1" data-i18n="[placeholder]Comma separated list (ignored if empty)" placeholder="Comma separated list (ignored if empty)" style="display: none;"></textarea>
-                            <button type="button" class="switch_input_type_icon" tabindex="-1" title="Switch to plaintext mode" data-i18n="[title]Switch to plaintext mode" data-icon-on="✨" data-icon-off="⌨️" data-tooltip-on="Switch to fancy mode" data-tooltip-off="Switch to plaintext mode">
-                                ⌨️
+                            <button type="button" class="switch_input_type_icon" tabindex="-1" title="Switch to plaintext mode" data-i18n="[title]Switch to plaintext mode" data-icon-on="lucide-sparkles" data-icon-off="lucide-keyboard" data-tooltip-on="Switch to fancy mode" data-tooltip-off="Switch to plaintext mode">
+                                <i class="lucide lucide-keyboard"></i>
                             </button>
                         </div>
                     </div>
@@ -7161,16 +7163,16 @@
                                             <textarea class="text_pole" rows="1" name="comment" data-i18n="[placeholder]Entry Title/Memo" placeholder="Entry Title/Memo"></textarea>
                                         </div>
                                         <!-- <span class="world_entry_form_position_value"></span> -->
-                                        <select data-i18n="[title]WI Entry Status:🔵 Constant🟢 Normal🔗 Vectorized" title="WI Entry Status:&#13;🔵 Constant&#13;🟢 Normal&#13;🔗 Vectorized" name="entryStateSelector" class="text_pole widthNatural margin0">
-                                            <option value="constant" title="Constant" data-i18n="[title]WI_Entry_Status_Constant">🔵</option>
-                                            <option value="normal" title="Normal" data-i18n="[title]WI_Entry_Status_Normal">🟢</option>
-                                            <option value="vectorized" title="Vectorized" data-i18n="[title]WI_Entry_Status_Vectorized">🔗</option>
+                                        <select data-i18n="[title]WI Entry Status" title="WI Entry Status" name="entryStateSelector" class="text_pole widthNatural margin0">
+                                            <option value="constant" title="Constant" data-i18n="[title]WI_Entry_Status_Constant;WI_Entry_Status_Constant">Constant</option>
+                                            <option value="normal" title="Normal" data-i18n="[title]WI_Entry_Status_Normal;WI_Entry_Status_Normal">Normal</option>
+                                            <option value="vectorized" title="Vectorized" data-i18n="[title]WI_Entry_Status_Vectorized;WI_Entry_Status_Vectorized">Vectorized</option>
                                         </select>
                                     </div>
                                     <div class="WIEnteryHeaderControls flex-container">
                                         <div name="PositionBlock" class="world_entry_form_control world_entry_form_radios wi-enter-footer-text">
                                             <label for="position" class="WIEntryHeaderTitleMobile" data-i18n="Position:">Position:</label>
-                                            <select name="position" class="text_pole widthNatural margin0" data-i18n="[title]T_Position" title="↑Char: Before Character Definitions&#13;↓Char: After Character Definitions&#13;↑EM: Before Example Messages&#13;↓EM: After Example Messages&#13;↑AN: Before Author's Note&#13;↓AN: After Author's Note&#13;@D ⚙️: at Depth (System)&#13;@D 👤: at Depth (User)&#13;@D 🤖: at Depth (Assistant)">
+                                            <select name="position" class="text_pole widthNatural margin0" data-i18n="[title]T_Position" title="↑Char: Before Character Definitions&#13;↓Char: After Character Definitions&#13;↑EM: Before Example Messages&#13;↓EM: After Example Messages&#13;↑AN: Before Author's Note&#13;↓AN: After Author's Note&#13;@D System: at Depth (System)&#13;@D User: at Depth (User)&#13;@D AI: at Depth (Assistant)">
                                                 <option value="0" data-role="" data-i18n="Before Char Defs">
                                                     ↑Char
                                                 </option>
@@ -7190,16 +7192,16 @@
                                                     ↓AN
                                                 </option>
                                                 <option value="4" data-role="0" data-i18n="at Depth System">
-                                                    @D ⚙️
+                                                    @D System
                                                 </option>
                                                 <option value="4" data-role="1" data-i18n="at Depth User">
-                                                    @D 👤
+                                                    @D User
                                                 </option>
                                                 <option value="4" data-role="2" data-i18n="at Depth AI">
-                                                    @D 🤖
+                                                    @D AI
                                                 </option>
                                                 <option value="7" data-role="" data-i18n="Outlet">
-                                                    ➡️ Outlet
+                                                    Outlet
                                                 </option>
                                             </select>
                                         </div>
@@ -7259,7 +7261,7 @@
         </div>
         <div id="openai_logit_bias_template" class="template_element">
             <div class="openai_logit_bias_form">
-                <span class="drag-handle">☰</span>
+                <span class="drag-handle lucide lucide-grip-vertical"></span>
                 <input class="openai_logit_bias_text text_pole" data-i18n="[placeholder]Text or token ids" placeholder="Text or [token ids]" />
                 <input class="openai_logit_bias_value text_pole" type="number" min="-100" value="0" max="100" />
                 <i class="menu_button fa-solid fa-xmark openai_logit_bias_remove"></i>
@@ -7267,7 +7269,7 @@
         </div>
         <div id="logit_bias_template" class="template_element">
             <div class="logit_bias_form">
-                <span class="drag-handle">☰</span>
+                <span class="drag-handle lucide lucide-grip-vertical"></span>
                 <input class="logit_bias_text text_pole" data-i18n="[placeholder]Type here..." placeholder="type here..." />
                 <input class="logit_bias_value text_pole" type="number" min="-100" value="0" max="100" step="0.01" />
                 <i class="menu_button fa-solid fa-xmark logit_bias_remove"></i>
@@ -7535,7 +7537,7 @@
                         Before you get started, you must select a persona name.
                     </span>
                     <br>
-                    <span data-i18n="welcome_message_part_8">This can be changed at any time via the</span> <code><i class="fa-solid fa-face-smile"></i></code> <span data-i18n="welcome_message_part_9">icon.</span>
+                    <span data-i18n="welcome_message_part_8">This can be changed at any time via the</span> <code><i class="lucide lucide-circle-user-round"></i></code> <span data-i18n="welcome_message_part_9">icon.</span>
                 </div>
                 <h4 data-i18n="Persona Name:">Persona Name:</h4>
             </div>

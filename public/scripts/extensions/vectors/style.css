@@ -1,4 +1,13 @@
 .mes.vectorized .name_text::after {
-    content: '🟢';
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+    background-color: currentColor;
+    -webkit-mask: var(--st-icon) center/contain no-repeat;
+    mask: var(--st-icon) center/contain no-repeat;
+    --st-icon: var(--lucide-circle-dot);
+    color: var(--active);
     margin-left: 5px;
 }

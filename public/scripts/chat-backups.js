@@ -177,7 +177,9 @@ class BackupsBrowser {
 
             const backupInfo = document.createElement('div');
             backupInfo.classList.add('chatBackupsListItemInfo');
-            backupInfo.textContent = `${timestampToMoment(backup.last_mes).format('lll')} (${backup.file_size}, ${backup.chat_items} 💬)`;
+            const messagesIcon = document.createElement('i');
+            messagesIcon.classList.add('lucide', 'lucide-message-circle');
+            backupInfo.append(`${timestampToMoment(backup.last_mes).format('lll')} (${backup.file_size}, ${backup.chat_items} `, messagesIcon, ')');
 
             const actionsList = document.createElement('div');
             actionsList.classList.add('chatBackupsListItemActions');

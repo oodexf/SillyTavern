@@ -2041,7 +2041,7 @@ export async function init() {
                 const { typename, color, icon } = getScriptDecorators(type);
                 return new SlashCommandEnumValue(
                     script.scriptName,
-                    `${enumIcons.getStateIcon(!script.disabled)} [${typename}] ${script.findRegex}`,
+                    `${script.disabled ? '(disabled) ' : ''}[${typename}] ${script.findRegex}`,
                     color,
                     icon,
                 );

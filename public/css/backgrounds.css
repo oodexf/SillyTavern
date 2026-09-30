@@ -139,8 +139,13 @@
 .bg_example.locked-background::after,
 .bg_example.selected-background::before,
 #Backgrounds.bg-selection-mode #bg_menu_content .bg_example.folder-group-selected::before {
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: currentColor;
+    -webkit-mask: var(--st-icon) center/contain no-repeat;
+    mask: var(--st-icon) center/contain no-repeat;
     position: absolute;
     z-index: 4;
     filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.8));
@@ -149,14 +154,14 @@
 
 .bg_example.selected-background::before,
 #Backgrounds.bg-selection-mode #bg_menu_content .bg_example.folder-group-selected::before {
-    content: '\f00c';
+    --st-icon: var(--lucide-check);
     top: 5px;
     color: var(--white100);
     font-size: calc(var(--mainFontSize) * 0.9);
 }
 
 .bg_example.locked-background::after {
-    content: '\f023';
+    --st-icon: var(--lucide-lock);
     bottom: 5px;
     right: 5px;
     color: var(--golden);

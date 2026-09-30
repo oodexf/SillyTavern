@@ -1,5 +1,22 @@
 import { AutoCompleteFuzzyScore } from './AutoCompleteFuzzyScore.js';
 
+const ICON_CLASS_PATTERN = /^(?:lucide|fa)-[a-z0-9-]+$/;
+
+/**
+ * Renders an option's type icon into an element.
+ * Icon class names (e.g. 'lucide-user' or 'fa-user') render as icons, anything else as text.
+ * @param {HTMLElement} element Element to render into
+ * @param {string} typeIcon Icon class name or short text
+ */
+export function renderTypeIcon(element, typeIcon) {
+    if (ICON_CLASS_PATTERN.test(typeIcon)) {
+        const icon = document.createElement('i');
+        icon.classList.add(typeIcon.startsWith('lucide-') ? 'lucide' : 'fa-solid', typeIcon);
+        element.replaceChildren(icon);
+    } else {
+        element.textContent = typeIcon;
+    }
+}
 
 export class AutoCompleteOption {
     /** @type {string} */ name;
@@ -62,7 +79,7 @@ export class AutoCompleteOption {
             const type = document.createElement('span'); {
                 type.classList.add('type');
                 type.classList.add('monospace');
-                type.textContent = typeIcon;
+                renderTypeIcon(type, typeIcon);
                 li.append(type);
             }
             const specs = document.createElement('span'); {

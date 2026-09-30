@@ -69,7 +69,7 @@ export class MenuItem {
                     this.subMenu = sub;
                     const trigger = document.createElement('div'); {
                         trigger.classList.add('ctx-expander');
-                        trigger.textContent = '⋮';
+                        trigger.classList.add('lucide', 'lucide-ellipsis-vertical');
                         trigger.addEventListener('click', (evt) => {
                             evt.stopPropagation();
                             this.toggle();

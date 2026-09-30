@@ -1922,7 +1922,7 @@ export function addDOMPurifyHooks() {
             case 'class': {
                 if (data.attrValue) {
                     data.attrValue = data.attrValue.split(' ').map((v) => {
-                        if (v.startsWith('fa-') || v.startsWith('note-') || v === 'monospace') {
+                        if (v.startsWith('fa-') || v === 'lucide' || v.startsWith('lucide-') || v.startsWith('note-') || v === 'monospace') {
                             return v;
                         }
 

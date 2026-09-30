@@ -15,7 +15,7 @@ import { SlashCommandParser } from './slash-commands/SlashCommandParser.js';
 import { SlashCommand } from './slash-commands/SlashCommand.js';
 import { ARGUMENT_TYPE, SlashCommandArgument, SlashCommandNamedArgument } from './slash-commands/SlashCommandArgument.js';
 import { SlashCommandEnumValue, enumTypes } from './slash-commands/SlashCommandEnumValue.js';
-import { commonEnumProviders, enumIcons } from './slash-commands/SlashCommandCommonEnumsProvider.js';
+import { commonEnumProviders, enumIcons, getRoleLabel } from './slash-commands/SlashCommandCommonEnumsProvider.js';
 import { SlashCommandClosure } from './slash-commands/SlashCommandClosure.js';
 import { callGenericPopup, Popup, POPUP_RESULT, POPUP_TYPE } from './popup.js';
 import { StructuredCloneMap } from './util/StructuredCloneMap.js';
@@ -1583,8 +1583,8 @@ function registerWorldInfoSlashCommands() {
         },
 
         timedEffects: () => [
-            new SlashCommandEnumValue('sticky', 'Stays active for N messages', enumTypes.enum, '📌'),
-            new SlashCommandEnumValue('cooldown', 'Cooldown for N messages', enumTypes.enum, '⌛'),
+            new SlashCommandEnumValue('sticky', 'Stays active for N messages', enumTypes.enum, 'lucide-pin'),
+            new SlashCommandEnumValue('cooldown', 'Cooldown for N messages', enumTypes.enum, 'lucide-hourglass'),
         ],
     };
 
@@ -1596,7 +1596,7 @@ function registerWorldInfoSlashCommands() {
             case world_info_position.EMBottom: return '↓EM';
             case world_info_position.ANTop: return '↑AT';
             case world_info_position.ANBottom: return '↓AT';
-            case world_info_position.atDepth: return `@D${enumIcons.getRoleIcon(entry.role)}`;
+            case world_info_position.atDepth: return `@D ${getRoleLabel(entry.role)}`;
             default: return '<Unknown>';
         }
     }
@@ -3573,7 +3573,7 @@ export async function getWorldEntry(name, data, entry) {
             $(`.world_entry[uid="${uid}"] .inline-drawer-icon`).trigger('click');
         }).each((_, icon) => {
             $(icon).attr('title', $(icon).data(power_user.wi_key_input_plaintext ? 'tooltip-on' : 'tooltip-off'));
-            $(icon).text($(icon).data(power_user.wi_key_input_plaintext ? 'icon-on' : 'icon-off'));
+            $(icon).empty().append($('<i>').addClass(`lucide ${$(icon).data(power_user.wi_key_input_plaintext ? 'icon-on' : 'icon-off')}`));
         });
 
         // Probability toggle

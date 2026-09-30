@@ -8606,7 +8606,7 @@ async function displayChats(searchQuery, currentChat, displayName, avatarImg, se
             template.find('.avatar img').attr('src', avatarImg);
             template.find('.select_chat_block_filename').text(chat.file_name);
             template.find('.chat_file_size').text(`(${chat.file_size},`);
-            template.find('.chat_messages_num').text(`${chat.message_count} 💬)`);
+            template.find('.chat_messages_num').text(`${chat.message_count} `).append($('<i class="lucide lucide-message-circle"></i>'), document.createTextNode(')'));
             template.find('.select_chat_block_mes').text(chat.preview_message);
             template.find('.PastChat_cross').attr('file_name', chat.file_name);
             template.find('.chat_messages_date').text(timestampToMoment(chat.last_mes).format('lll'));

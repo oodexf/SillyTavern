@@ -301,7 +301,7 @@ const DEFAULT_TAGS = [
 
 /**
  * @typedef FolderType Bogus folder type
- * @property {string} icon - The icon as a string representation / character
+ * @property {string} icon - Lucide icon class shown as the folder indicator
  * @property {string} class - The class to apply to the folder type element
  * @property {string} [fa_icon] - Optional font-awesome icon class representing the folder type element
  * @property {string} [tooltip] - Optional tooltip for the folder type element
@@ -314,9 +314,9 @@ const DEFAULT_TAGS = [
  * The list of all possible tag folder types
  */
 const TAG_FOLDER_TYPES = {
-    OPEN: { icon: '✔', class: 'folder_open', fa_icon: 'fa-folder-open', tooltip: 'Open Folder (Show all characters even if not selected)', color: 'green', size: '1' },
-    CLOSED: { icon: '👁', class: 'folder_closed', fa_icon: 'fa-eye-slash', tooltip: 'Closed Folder (Hide all characters unless selected)', color: 'lightgoldenrodyellow', size: '0.7' },
-    NONE: { icon: '✕', class: 'no_folder', tooltip: 'No Folder', color: 'red', size: '1' },
+    OPEN: { icon: 'lucide-check', class: 'folder_open', fa_icon: 'fa-folder-open', tooltip: 'Open Folder (Show all characters even if not selected)', color: 'green', size: '1' },
+    CLOSED: { icon: 'lucide-eye', class: 'folder_closed', fa_icon: 'fa-eye-slash', tooltip: 'Closed Folder (Hide all characters unless selected)', color: 'lightgoldenrodyellow', size: '0.7' },
+    NONE: { icon: 'lucide-x', class: 'no_folder', tooltip: 'No Folder', color: 'red', size: '1' },
 };
 const TAG_FOLDER_DEFAULT_TYPE = 'NONE';
 
@@ -2109,7 +2109,7 @@ function updateDrawTagFolder(element, tag) {
     folderElement.attr('title', tagFolder.tooltip);
     folderElement.attr('data-i18n', '[title]' + tagFolder.tooltip);
     const indicator = folderElement.find('.tag_folder_indicator');
-    indicator.text(tagFolder.icon);
+    indicator.empty().append($('<i>').addClass(`lucide ${tagFolder.icon}`));
     indicator.css('color', tagFolder.color);
     indicator.css('font-size', `calc(var(--mainFontSize) * ${tagFolder.size})`);
 }

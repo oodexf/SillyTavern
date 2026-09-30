@@ -47,11 +47,22 @@
 }
 
 .sd_comfy_workflow_editor_placeholder_list>li[data-placeholder]:before {
-    content: "✅ ";
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+    background-color: currentColor;
+    -webkit-mask: var(--st-icon) center/contain no-repeat;
+    mask: var(--st-icon) center/contain no-repeat;
+    --st-icon: var(--lucide-circle-check);
+    color: var(--active);
+    margin-right: 0.25em;
 }
 
 .sd_comfy_workflow_editor_placeholder_list>li.sd_comfy_workflow_editor_not_found:before {
-    content: "❌ ";
+    --st-icon: var(--lucide-circle-x);
+    color: var(--fullred);
 }
 
 .sd_comfy_workflow_editor_placeholder_list>li>.notes-link {

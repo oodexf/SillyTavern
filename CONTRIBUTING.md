@@ -27,6 +27,14 @@ Our standards are pretty low, but make sure the code is not too ugly:
 - Check with ESLint by running `npm run lint`, then fix the errors.
 - Use common sense and follow existing naming conventions.
 
+### Follow the UI design system
+
+The UI uses shadcn/ui-style design tokens and Lucide icons, see [docs/ui-design-system.md](docs/ui-design-system.md):
+
+- Style with the `--ui-*` tokens from `public/css/tokens.css` instead of hard-coded colors.
+- Use Lucide icons (`<i class="lucide lucide-settings"></i>`) and run `npm run build:icons` when the icon mapping changes.
+- Do not use emoji in the UI. Check with `npm run lint:emoji`.
+
 ### Use the correct target branch
 
 Create pull requests for the `staging` branch, 99% of contributions should go there. That way people could test your code before the next stable release.
