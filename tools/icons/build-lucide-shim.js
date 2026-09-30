@@ -80,12 +80,14 @@ const lucideIcons = new Set(fs.readdirSync(lucideDir).filter(f => f.endsWith('.s
 const lucideTags = JSON.parse(fs.readFileSync(path.join(rootDir, 'node_modules/lucide-static/tags.json'), 'utf8'));
 /** @type {{n: string[], b?: number}[]} */
 const faGroups = JSON.parse(fs.readFileSync(path.join(toolsDir, 'fa-icon-groups.json'), 'utf8'));
-/** @type {Record<string, string>} */
+/** @type {Record<string, string>} Curated mappings for icons the app itself uses */
 const manualMap = JSON.parse(fs.readFileSync(path.join(toolsDir, 'fa-to-lucide.manual.json'), 'utf8'));
+/** @type {Record<string, string>} Mappings for the long tail (third-party extensions, saved Quick Reply icons) */
+const longTailMap = JSON.parse(fs.readFileSync(path.join(toolsDir, 'fa-to-lucide.longtail.json'), 'utf8'));
 
-for (const [fa, icon] of Object.entries(manualMap)) {
+for (const [fa, icon] of [...Object.entries(manualMap), ...Object.entries(longTailMap)]) {
     if (!lucideIcons.has(icon)) {
-        throw new Error(`Manual mapping ${fa} -> ${icon}: Lucide icon does not exist`);
+        throw new Error(`Mapping ${fa} -> ${icon}: Lucide icon does not exist`);
     }
 }
 
@@ -124,6 +126,10 @@ function resolveGroup(names, isBrand) {
         if (lucideIcons.has(exact)) {
             return { icon: exact, confident: true };
         }
+    }
+    const longTail = names.find(n => longTailMap[n]);
+    if (longTail) {
+        return { icon: longTailMap[longTail], confident: true };
     }
     for (const n of names) {
         const [, rewritten, swapped] = candidates(n);

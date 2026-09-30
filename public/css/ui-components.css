@@ -31,7 +31,7 @@
     border-radius: var(--ui-radius-md);
     box-shadow: var(--ui-shadow-sm);
     filter: none;
-    padding: 0.3em 0.65em;
+    padding: 0.3em 0.55em;
     font-weight: 500;
     transition:
         background-color var(--ui-transition),
@@ -60,7 +60,8 @@
 .menu_button.fa-solid,
 .menu_button.fa-regular,
 .menu_button.fa-brands,
-.menu_button.lucide {
+.menu_button.lucide,
+.menu_button:has(> i:only-child) {
     padding: 0.3em;
 }
 
@@ -125,7 +126,7 @@ select,
 }
 
 .text_pole {
-    padding: 0.3em 0.6em;
+    padding: 0.21em 0.35em;
 }
 
 textarea {
@@ -151,11 +152,11 @@ select:disabled {
 
 select,
 select.text_pole {
-    padding: 0.3em 1.45em 0.3em 0.4em;
+    padding: 0.21em 1em 0.21em 0.35em;
     background-image: var(--ui-select-chevron);
     background-repeat: no-repeat;
-    background-position: right 0.35em center;
-    background-size: 0.85em 0.85em;
+    background-position: right 0.25em center;
+    background-size: 0.7em 0.7em;
     cursor: pointer;
 }
 
