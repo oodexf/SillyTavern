@@ -148,3 +148,43 @@
     flex: 1 1 5em;
     min-width: 5em;
 }
+
+/* ------------------------------------------------------------------ */
+/* AI Response Configuration                                          */
+/* ------------------------------------------------------------------ */
+
+.editable-slider-notification {
+    color: var(--ui-muted-foreground);
+}
+
+/* On narrow screens the panel pin is hidden, so the absolutely positioned hint would
+   overlap the preset header; keep it in the normal flow instead. */
+@media screen and (max-width: 1000px) {
+    .editable-slider-notification {
+        position: static;
+        width: auto;
+        margin: 0 0 4px;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* Prompt Manager (Chat Completion)                                   */
+/* ------------------------------------------------------------------ */
+
+#completion_prompt_manager #completion_prompt_manager_list .completion_prompt_manager_prompt:not(.completion_prompt_manager_prompt_disabled) .prompt-manager-toggle-action {
+    color: var(--ui-foreground);
+}
+
+#completion_prompt_manager #completion_prompt_manager_list .completion_prompt_manager_prompt .prompt-manager-toggle-action {
+    color: var(--ui-muted-foreground);
+}
+
+#completion_prompt_manager #completion_prompt_manager_list .completion_prompt_manager_prompt_disabled .completion_prompt_manager_prompt_name,
+#completion_prompt_manager #completion_prompt_manager_list .completion_prompt_manager_prompt_disabled .completion_prompt_manager_prompt_name .prompt-manager-inspect-action {
+    color: var(--ui-muted-foreground);
+}
+
+#completion_prompt_manager #completion_prompt_manager_list .completion_prompt_manager_prompt.completion_prompt_manager_prompt_disabled {
+    border-color: var(--ui-border);
+    border-style: dashed;
+}

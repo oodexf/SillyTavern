@@ -3924,7 +3924,13 @@ grammarly-extension {
 }
 
 .prompt_order>div::after {
-    content: "☰";
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: currentColor;
+    -webkit-mask: var(--lucide-grip-vertical) center/contain no-repeat;
+    mask: var(--lucide-grip-vertical) center/contain no-repeat;
     left: 8px;
     position: absolute;
 }

@@ -30,7 +30,7 @@ export class QuickReplySetLink {
             const drag = document.createElement('div'); {
                 drag.classList.add('drag-handle');
                 drag.classList.add('ui-sortable-handle');
-                drag.textContent = '☰';
+                drag.classList.add('lucide', 'lucide-grip-vertical');
                 item.append(drag);
             }
             const set = document.createElement('select'); {

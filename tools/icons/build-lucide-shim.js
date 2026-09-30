@@ -29,6 +29,7 @@ const CSS_VARIABLE_ICONS = [
     'circle-check',
     'circle-dot',
     'circle-x',
+    'grip-vertical',
     'info',
     'lock',
     'minus',
