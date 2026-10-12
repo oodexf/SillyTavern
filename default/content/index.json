@@ -24,6 +24,10 @@
         "type": "theme"
     },
     {
+        "filename": "themes/Daylight.json",
+        "type": "theme"
+    },
+    {
         "filename": "backgrounds/__transparent.png",
         "type": "background"
     },

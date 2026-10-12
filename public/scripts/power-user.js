@@ -69,6 +69,7 @@ import { IMAGE_OVERSWIPE, MEDIA_DISPLAY } from './constants.js';
 import { t } from './i18n.js';
 import { getBackgroundPath, isCustomBackgroundUrl } from './backgrounds.js';
 import { persona_description_positions as _persona_description_positions } from './personas.js';
+import { applySidebarLayout } from './sidebar-layout.js';
 
 export const toastPositionClasses = [
     'toast-top-left',
@@ -171,6 +172,7 @@ export const power_user = {
 
     waifuMode: false,
     movingUI: false,
+    sidebar_layout: true,
     movingUIState: {},
     movingUIPreset: '',
     noShadows: false,
@@ -1017,6 +1019,7 @@ function switchMovingUI() {
             saveSettingsDebounced();
         }
     }
+    applySidebarLayout();
 }
 
 function applyNoShadows() {
@@ -1626,6 +1629,10 @@ export async function loadPowerUserSettings(settings, data) {
         power_user.chat_width = 50;
     }
 
+    if (typeof power_user.sidebar_layout !== 'boolean') {
+        power_user.sidebar_layout = true;
+    }
+
     if (power_user.tokenizer === tokenizers.LEGACY) {
         power_user.tokenizer = tokenizers.GPT2;
     }
@@ -1693,6 +1700,7 @@ export async function loadPowerUserSettings(settings, data) {
     $('#fast_ui_mode').prop('checked', power_user.fast_ui_mode);
     $('#waifuMode').prop('checked', power_user.waifuMode);
     $('#movingUImode').prop('checked', power_user.movingUI);
+    $('#sidebar_layout').prop('checked', power_user.sidebar_layout);
     $('#noShadowsmode').prop('checked', power_user.noShadows);
     $('#start_reply_with').text(power_user.user_prompt_bias);
     $('#chat-show-reply-prefix-checkbox').prop('checked', power_user.show_user_prompt_bias);
@@ -3357,6 +3365,12 @@ jQuery(() => {
     $('#movingUImode').on('change', function () {
         power_user.movingUI = $(this).prop('checked');
         switchMovingUI();
+        saveSettingsDebounced();
+    });
+
+    $('#sidebar_layout').on('change', function () {
+        power_user.sidebar_layout = !!$(this).prop('checked');
+        applySidebarLayout();
         saveSettingsDebounced();
     });
 

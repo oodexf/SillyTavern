@@ -21,6 +21,7 @@ css/tokens.css            设计变量
 css/ui-components.css     基础组件
 css/ui-layout.css         应用外壳（顶栏、面板、聊天区、输入框）
 css/ui-panels.css         面板内通用模式与个别面板修正
+css/ui-sidebar.css        桌面端侧栏布局
 css/user.css              用户样式（最后加载）
 ```
 
@@ -30,6 +31,8 @@ css/user.css              用户样式（最后加载）
 | `public/css/ui-components.css` | 按钮、输入框、下拉框、勾选框、滑块、弹窗、下拉菜单、通知、select2、分区卡片、滚动条 |
 | `public/css/ui-layout.css` | 顶部导航、侧边与下拉面板、聊天消息、输入框 |
 | `public/css/ui-panels.css` | 标签页、可选列表、分页、快速回复设置、提示词管理器等 |
+| `public/css/ui-sidebar.css` | 桌面端侧栏布局（见下文） |
+| `public/scripts/sidebar-layout.js` | 侧栏布局的开关、导航折叠、面板宽度与面板记忆 |
 | `public/css/lucide-icons.css` | 由 `tools/icons/build-lucide-shim.js` 生成 |
 | `public/lib/lucide/fa-icons.json` | 图标选择器使用的图标列表（生成文件） |
 | `tools/icons/` | 图标生成脚本与映射表 |
@@ -64,6 +67,12 @@ css/user.css              用户样式（最后加载）
 2. 在 `body` 上把 `--SmartThemeBorderColor` 指向 `--ui-border`，让约 90 处旧样式的边框与新组件保持一致。
 3. 主题代码在根元素上读写原始值，保存主题时不受影响。
 
+## 日间主题
+
+内置主题 `Daylight`（`default/content/themes/Daylight.json`）是唯一的浅色主题，配色参照 shadcn/ui 的 zinc 浅色方案：白色面板、近黑正文、琥珀色引号文字、青绿色下划线文字，关闭文字阴影和模糊。新安装和已有用户在服务器下次启动时都会自动获得该主题。
+
+旧样式里有不少写死的黑色或白色半透明填充（`--black30a`、`--white30a` 等），只适合深色主题。这些位置已在 `ui-layout.css`（消息内容）和 `ui-panels.css`（"Neutral fills" 一节）改为使用设计变量。新增样式时如果看到类似写法，请同样替换为 `--ui-muted`、`--ui-secondary`、`--ui-accent` 等变量。
+
 ## 组件约定
 
 - 新写或修改的样式**只使用 `--ui-*` 变量**，不要写死 `white`、`black`、`rgba(255,255,255,…)` 之类的颜色，否则浅色主题下会出问题。
@@ -72,6 +81,26 @@ css/user.css              用户样式（最后加载）
 - 只有图标的按钮（图标类写在按钮本身，或按钮里只有一个 `<i>`）会自动使用紧凑内边距。很多旧规则给这类按钮写死了宽度，不要再给它们加较大的横向内边距。
 - **注意紧凑布局。** 很多行在旧样式下恰好放得下，增加 1 到 2 像素就会换行。调整内边距或最小宽度后，请按下文"回归检查"对比布局。
 - 覆盖旧样式时，选择器优先级要与旧规则持平或更高（部分旧规则使用了 ID 选择器或 `!important`，例如 `.neo-range-slider`）。
+
+## 侧栏布局
+
+桌面端（宽度大于 1000px）默认使用侧栏布局：左侧是可折叠的导航栏，右边紧挨着当前打开的设置面板，其余空间是聊天区。窄屏仍使用原来的顶栏加下拉面板。
+
+- **开关：** 用户设置中的"侧栏布局"（`power_user.sidebar_layout`，默认开启）。开启 MovingUI 时自动使用经典布局。启用后 `body` 带有 `sidebarLayout` 类，所有规则都写在 `@media (min-width: 1001px)` 内并以 `body.sidebarLayout` 开头。JS 中用 `isSidebarLayout()` 判断。
+- **结构不变：** 导航栏就是原来的 `#top-settings-holder`，每个 `.drawer` 是一行，`.drawer-content` 被固定到导航栏右侧的同一个位置。
+- **面板行为：** 同一时间只打开一个面板（锁定的面板也会被替换），点击聊天区不会关闭面板，再次点击当前导航项才会关闭。锁定按钮在侧栏布局中隐藏，切回经典布局后照常生效。刷新后恢复上次打开的面板。
+- **导航折叠：** 导航栏底部的按钮切换 `body.sidebarRailExpanded`（显示文字标签），状态保存在账户存储中。
+- **面板宽度：** 拖动面板右边缘调整，双击恢复默认，聊天区至少保留 420px。多栏设置（用户设置、高级格式、扩展）按面板宽度自动换行。
+- **变量：**
+
+| 变量 | 含义 |
+|---|---|
+| `--ui-rail-width` | 导航栏宽度（收起 56px，展开 216px） |
+| `--ui-panel-width` | 设置面板宽度 |
+| `--ui-sidebar-offset` | 聊天区左侧被占用的宽度（导航栏，加上打开的面板） |
+| `--sheldWidth` | 在 `body` 上重新定义为聊天列宽度：剩余空间与"聊天宽度"设置取较小值。面板内部重新定义为面板宽度 |
+
+- **扩展：** 往 `#top-settings-holder` 添加的 `.drawer` 会自动成为导航项。导航文字优先取 toggle 内的 `.drawer-label`，否则取 toggle 或 `.drawer-icon` 的 `title`。依赖"聊天区左右空白"定位的元素，请以 `--ui-sidebar-offset` 为起点计算。
 
 ## 图标
 
@@ -159,9 +188,9 @@ npm run lint:emoji
 修改界面样式后建议检查以下项目：
 
 1. `npm run lint` 与 `npm run lint:emoji` 通过。
-2. 逐个切换内置主题（Azure、Cappuccino、Celestial Macaron、Dark Lite、Dark V 1.0），并在页面中临时设置浅色主题变量，确认对比度正常。
+2. 逐个切换内置主题（Azure、Cappuccino、Celestial Macaron、Dark Lite、Dark V 1.0，以及浅色的 Daylight），确认对比度正常。
 3. 至少检查中文、英文（字符串最长）两种界面语言。
-4. 检查桌面、约 1000px 与 375px 三种宽度，确认没有横向滚动。
+4. 检查桌面、约 1000px 与 375px 三种宽度，确认没有横向滚动。桌面端分别在侧栏布局和经典布局下检查。
 5. 对比布局是否因样式改动而换行：在浏览器控制台强制展开所有面板，分别在启用和禁用 `tokens.css`、`ui-*.css` 的情况下测量元素高度，报告高度增加 12px 以上的最内层元素。
 
 ```js

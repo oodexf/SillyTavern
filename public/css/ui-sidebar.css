@@ -1,0 +1,320 @@
+/*
+ * Sidebar layout (desktop only, body.sidebarLayout, toggled by scripts/sidebar-layout.js):
+ * the top bar drawers become a collapsible navigation rail on the left, the open drawer is docked
+ * next to it and the chat fills the rest of the screen. Narrow screens keep the mobile layout.
+ */
+
+/* The chat width setting, as written by power-user.js on the root element */
+:root {
+    --ui-chat-width-pref: var(--sheldWidth);
+}
+
+/* Only shown by the sidebar layout */
+.drawer-label,
+#sidebarRailToggle,
+#sidebarPanelResizer {
+    display: none;
+}
+
+@media screen and (min-width: 1001px) {
+    body.sidebarLayout {
+        --ui-rail-width: 56px;
+        /* --ui-panel-width-pref is set when the panel is resized; the chat always keeps 420px */
+        --ui-panel-width: clamp(320px, var(--ui-panel-width-pref, clamp(380px, 30vw, 600px)), calc(100dvw - var(--ui-rail-width) - 420px));
+        --ui-sidebar-offset: var(--ui-rail-width);
+        /* Chat column: fills the space right of the sidebar, up to the chat width setting */
+        --sheldWidth: min(calc(100dvw - var(--ui-sidebar-offset)), var(--ui-chat-width-pref));
+    }
+
+    body.sidebarLayout.sidebarRailExpanded {
+        --ui-rail-width: 216px;
+    }
+
+    body.sidebarLayout:has(#top-settings-holder > .drawer > .drawer-content.openDrawer) {
+        --ui-sidebar-offset: calc(var(--ui-rail-width) + var(--ui-panel-width));
+    }
+
+    /* -------------------------------------------------------------- */
+    /* Navigation rail                                                */
+    /* -------------------------------------------------------------- */
+
+    body.sidebarLayout #top-bar {
+        display: none;
+    }
+
+    body.sidebarLayout #top-settings-holder {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: var(--ui-rail-width);
+        height: auto;
+        margin: 0;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 2px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        scrollbar-width: none;
+        border-right: 1px solid var(--ui-border);
+        transition: width var(--ui-transition);
+    }
+
+    /* Background on a pseudo-element: a backdrop-filter on the rail itself would become
+       the containing block of the fixed drawers inside it */
+    body.sidebarLayout #top-settings-holder::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        /* Leaves the rail's right border uncovered */
+        width: calc(var(--ui-rail-width) - 1px);
+        z-index: -1;
+        background-color: var(--SmartThemeBlurTintColor);
+        backdrop-filter: blur(var(--SmartThemeBlurStrength));
+        -webkit-backdrop-filter: blur(var(--SmartThemeBlurStrength));
+        transition: width var(--ui-transition);
+    }
+
+    body.sidebarLayout #top-settings-holder>.drawer {
+        width: 100%;
+        flex: 0 0 auto;
+        justify-content: flex-start;
+    }
+
+    body.sidebarLayout #top-settings-holder .drawer-toggle {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        min-width: 0;
+        padding: 0;
+        color: var(--ui-muted-foreground);
+        border-radius: var(--ui-radius-md);
+        cursor: pointer;
+        transition:
+            color var(--ui-transition),
+            background-color var(--ui-transition);
+    }
+
+    body.sidebarLayout #top-settings-holder .drawer-toggle:hover {
+        color: var(--ui-foreground);
+        background-color: var(--ui-accent);
+    }
+
+    body.sidebarLayout #top-settings-holder .drawer-toggle:has(.openIcon) {
+        color: var(--ui-foreground);
+        background-color: var(--ui-accent-strong);
+    }
+
+    /* The whole row is the button; the icon itself stays flat */
+    body.sidebarLayout #top-settings-holder .drawer-icon,
+    body.sidebarLayout #top-settings-holder .drawer-icon:hover,
+    body.sidebarLayout #top-settings-holder .drawer-icon.openIcon {
+        flex: 0 0 auto;
+        width: 40px;
+        height: 40px;
+        font-size: calc(var(--mainFontSize) * 1.25);
+        color: inherit;
+        background-color: transparent;
+    }
+
+    body.sidebarLayout.sidebarRailExpanded #top-settings-holder .drawer-label {
+        display: block;
+        flex: 1 1 auto;
+        min-width: 0;
+        padding-right: 8px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: calc(var(--mainFontSize) * 0.95);
+        font-weight: 500;
+    }
+
+    body.sidebarLayout #sidebarRailToggle {
+        display: flex;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        margin: auto 0 0;
+        padding: 0;
+        font-size: calc(var(--mainFontSize) * 1.15);
+        color: var(--ui-muted-foreground);
+        background-color: transparent;
+        border-color: transparent;
+        box-shadow: none;
+    }
+
+    body.sidebarLayout #sidebarRailToggle:hover {
+        color: var(--ui-foreground);
+        background-color: var(--ui-accent);
+    }
+
+    /* -------------------------------------------------------------- */
+    /* Docked panel                                                   */
+    /* -------------------------------------------------------------- */
+
+    body.sidebarLayout #top-settings-holder .drawer-content {
+        /* Column widths inside the panels are derived from --sheldWidth */
+        --sheldWidth: var(--ui-panel-width);
+        position: fixed;
+        top: 0;
+        bottom: auto;
+        left: var(--ui-rail-width);
+        right: auto;
+        width: var(--ui-panel-width);
+        min-width: 0 !important;
+        min-height: 0 !important;
+        height: 100dvh;
+        max-height: 100dvh;
+        margin: 0;
+        border: none;
+        border-right: 1px solid var(--ui-border);
+        border-radius: 0;
+        box-shadow: var(--ui-shadow-lg);
+        z-index: 1;
+        opacity: 0;
+        transform: translateX(-8px);
+        transition-property: opacity, transform, display, left;
+        transition-duration: var(--animation-duration-2x);
+        transition-timing-function: ease-out;
+        transition-behavior: allow-discrete;
+    }
+
+    body.sidebarLayout #top-settings-holder .drawer-content.openDrawer {
+        height: 100dvh;
+        opacity: 1;
+        transform: none;
+
+        @starting-style {
+            height: 100dvh;
+            opacity: 0;
+            transform: translateX(-8px);
+        }
+    }
+
+    /* Only one docked panel at a time, so the pin and window controls have no use here */
+    body.sidebarLayout #lm_button_panel_pin_div,
+    body.sidebarLayout #rm_button_panel_pin_div,
+    body.sidebarLayout #WI_panel_pin_div,
+    body.sidebarLayout #top-settings-holder .drag-grabber,
+    body.sidebarLayout #top-settings-holder .inline-drawer-maximize,
+    body.sidebarLayout #top-settings-holder .floating_panel_maximize {
+        display: none !important;
+    }
+
+    /* Multi-column settings wrap to fit the panel width */
+    body.sidebarLayout #UI-Theme-Block,
+    body.sidebarLayout #UI-Customization,
+    body.sidebarLayout #power-user-options-block,
+    body.sidebarLayout #ContextSettings,
+    body.sidebarLayout #InstructSettingsColumn,
+    body.sidebarLayout #SystemPromptColumn,
+    body.sidebarLayout #extensions_settings,
+    body.sidebarLayout #extensions_settings2 {
+        flex: 1 1 320px;
+        min-width: 0;
+    }
+
+    /* Drag handle on the right edge of the docked panel */
+    body.sidebarLayout:has(#top-settings-holder > .drawer > .drawer-content.openDrawer) #sidebarPanelResizer {
+        display: block;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: calc(var(--ui-rail-width) + var(--ui-panel-width) - 3px);
+        width: 6px;
+        z-index: 3006;
+        cursor: col-resize;
+        touch-action: none;
+    }
+
+    body.sidebarLayout #sidebarPanelResizer::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 2px;
+        width: 2px;
+        background-color: transparent;
+        transition: background-color var(--ui-transition);
+    }
+
+    body.sidebarLayout #sidebarPanelResizer:hover::after,
+    body.sidebarResizing #sidebarPanelResizer::after {
+        background-color: var(--ui-ring);
+    }
+
+    body.sidebarResizing {
+        cursor: col-resize;
+        user-select: none;
+    }
+
+    body.sidebarResizing #sheld,
+    body.sidebarResizing #top-settings-holder .drawer-content {
+        transition: none;
+    }
+
+    /* Advanced definitions: shown over the chat instead of inside the rail */
+    body.sidebarLayout #character_popup {
+        position: fixed;
+        top: 0;
+        left: calc(var(--ui-sidebar-offset) + (100dvw - var(--ui-sidebar-offset) - var(--sheldWidth)) / 2);
+        right: auto;
+        width: var(--sheldWidth);
+        max-width: var(--sheldWidth);
+        height: 100dvh;
+        min-height: 100dvh;
+        max-height: 100dvh;
+        margin: 0;
+    }
+
+    /* Without the pin row, the absolutely positioned hint would overlap the preset header */
+    body.sidebarLayout .editable-slider-notification {
+        position: static;
+        width: auto;
+        margin: 0 0 4px;
+    }
+
+    /* Floating panels (Author's Note, CFG, token probabilities...) open over the docked panel */
+    body.sidebarLayout #movingDivs>.drawer-content,
+    body.sidebarLayout #movingDivs>div {
+        top: 0;
+        left: var(--ui-rail-width);
+        right: auto;
+        width: var(--ui-panel-width);
+        height: 100dvh;
+        max-height: 100dvh;
+        margin: 0;
+        border-radius: 0;
+        border: none;
+        border-right: 1px solid var(--ui-border);
+    }
+
+    /* -------------------------------------------------------------- */
+    /* Chat                                                           */
+    /* -------------------------------------------------------------- */
+
+    body.sidebarLayout #sheld {
+        top: 0;
+        right: auto;
+        left: calc(var(--ui-sidebar-offset) + (100dvw - var(--ui-sidebar-offset) - var(--sheldWidth)) / 2);
+        margin: 0;
+        height: 100dvh;
+        max-height: 100dvh;
+        transition:
+            left var(--ui-transition),
+            width var(--ui-transition);
+    }
+
+    /* Elements that sit in the gap left of the chat start after the sidebar */
+    body.sidebarLayout .zoomed_avatar {
+        --leftGapWidth: calc((100dvw - var(--ui-sidebar-offset) - var(--sheldWidth)) / 2);
+        left: calc(var(--ui-sidebar-offset) + var(--leftPosition));
+    }
+}

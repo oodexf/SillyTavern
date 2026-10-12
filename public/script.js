@@ -12,6 +12,7 @@ import {
 } from './lib.js';
 
 import { humanizedDateTime, favsToHotswap, getMessageTimeStamp, dragElement, isMobile, initRossMods } from './scripts/RossAscends-mods.js';
+import { initSidebarLayout, isSidebarLayout, rememberActivePanel } from './scripts/sidebar-layout.js';
 import { userStatsHandler, statMesProcess, initStats } from './scripts/stats.js';
 import {
     generateKoboldWithStreaming,
@@ -766,6 +767,7 @@ async function firstLoadInit() {
     initMacroAutoComplete();
     initWorldInfo();
     initHorde();
+    initSidebarLayout();
     initRossMods();
     initStats();
     initCfg();
@@ -10956,20 +10958,24 @@ export async function doNavbarIconClick() {
     const drawerWasOpenAlready = $(this).parent().find('.drawer-content').hasClass('openDrawer');
     const targetDrawerID = $(this).parent().find('.drawer-content').attr('id');
 
+    // The sidebar layout docks one drawer at a time, so pinned drawers are replaced as well
+    const sidebarLayout = isSidebarLayout();
+
     if (!drawerWasOpenAlready) {
-        const $openDrawers = $('.openDrawer:not(.pinnedOpen)');
-        const $openIcons = $('.openIcon:not(.drawerPinnedOpen)');
+        const $openDrawers = sidebarLayout ? $('#top-settings-holder .openDrawer') : $('.openDrawer:not(.pinnedOpen)');
+        const $openIcons = sidebarLayout ? $('#top-settings-holder .openIcon') : $('.openIcon:not(.drawerPinnedOpen)');
         for (const iconEl of $openIcons) {
             $(iconEl).toggleClass('closedIcon openIcon');
         }
         for (const el of $openDrawers) {
             $(el).toggleClass('closedDrawer openDrawer');
         }
-        if ($openDrawers.length && animation_duration) {
+        if ($openDrawers.length && animation_duration && !sidebarLayout) {
             await delay(animation_duration);
         }
         icon.toggleClass('openIcon closedIcon');
         drawer.toggleClass('openDrawer closedDrawer');
+        rememberActivePanel(targetDrawerID);
 
         if (targetDrawerID === 'right-nav-panel') {
             favsToHotswap();
@@ -10986,6 +10992,7 @@ export async function doNavbarIconClick() {
     } else if (drawerWasOpenAlready) {
         icon.toggleClass('closedIcon openIcon');
         drawer.toggleClass('closedDrawer openDrawer');
+        rememberActivePanel(null);
     }
 }
 
@@ -12179,6 +12186,10 @@ jQuery(async function () {
         }
 
         // This autocloses open drawers that are not pinned if a click happens inside the app which does not target them.
+        // Docked drawers in the sidebar layout stay open until closed from the navigation.
+        if (isSidebarLayout()) {
+            return;
+        }
         const targetParentHasOpenDrawer = clickTarget.parents('.openDrawer').length;
         if (!clickTarget.hasClass('drawer-icon') && !clickTarget.hasClass('openDrawer')) {
             const $openDrawers = $('.openDrawer').not('.pinnedOpen');
