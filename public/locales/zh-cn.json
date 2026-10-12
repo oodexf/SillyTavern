@@ -3643,5 +3643,9 @@
     "Deleting chat…": "正在删除聊天…",
     "Loading chat…": "正在加载聊天…",
     "Bulk Delete": "批量删除",
-    "Deleting ${0} character(s)…": "正在删除 ${0} 个角色…"
+    "Deleting ${0} character(s)…": "正在删除 ${0} 个角色…",
+    "Sidebar Layout": "侧栏布局",
+    "sidebar_layout_desc": "在聊天区左侧以侧栏显示设置面板。仅限桌面端；启用可移动 UI 面板时不生效。",
+    "Expand navigation": "展开导航栏",
+    "Collapse navigation": "收起导航栏"
 }

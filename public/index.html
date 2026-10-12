@@ -45,6 +45,7 @@
     <link rel="stylesheet" type="text/css" href="css/ui-components.css">
     <link rel="stylesheet" type="text/css" href="css/ui-layout.css">
     <link rel="stylesheet" type="text/css" href="css/ui-panels.css">
+    <link rel="stylesheet" type="text/css" href="css/ui-sidebar.css">
     <link rel="stylesheet" type="text/css" href="css/user.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <!-- Scripts are loaded at the end of the body to improve page load speed -->
@@ -70,6 +71,7 @@
         <div id="ai-config-button" class="drawer">
             <div class="drawer-toggle drawer-header">
                 <div id="leftNavDrawerIcon" class="drawer-icon lucide lucide-brain-circuit fa-fw closedIcon" title="AI Response Configuration" data-i18n="[title]AI Response Configuration"></div>
+                <span class="drawer-label" data-i18n="AI Response Configuration">AI Response Configuration</span>
             </div>
             <div id="left-nav-panel" class="drawer-content fillLeft closedDrawer">
                 <div id="left-nav-panelheader" class="fa-solid fa-grip drag-grabber"></div>
@@ -2284,6 +2286,7 @@
         <div id="sys-settings-button" class="drawer">
             <div class="drawer-toggle drawer-header">
                 <div id="API-status-top" class="drawer-icon lucide lucide-unplug fa-fw closedIcon" title="API Connections" data-i18n="[title]API Connections;[no_connection_text]api_no_connection" no_connection_text="No connection..."></div>
+                <span class="drawer-label" data-i18n="API Connections">API Connections</span>
             </div>
             <div id="rm_api_block" class="drawer-content closedDrawer">
                 <h3 class="margin0" id="title_api">API</h3>
@@ -4093,6 +4096,7 @@
         <div id="advanced-formatting-button" class="drawer">
             <div class="drawer-toggle">
                 <div class="drawer-icon lucide lucide-scroll-text fa-fw closedIcon" title="AI Response Formatting" data-i18n="[title]AI Response Formatting"></div>
+                <span class="drawer-label" data-i18n="AI Response Formatting">AI Response Formatting</span>
             </div>
             <div id="AdvancedFormatting" class="drawer-content closedDrawer">
                 <div class="flex-container alignItemsBaseline">
@@ -4673,6 +4677,7 @@
         <div id="WI-SP-button" class="drawer">
             <div class="drawer-toggle drawer-header">
                 <div id="WIDrawerIcon" class="drawer-icon lucide lucide-book-open-text fa-fw closedIcon" title="World Info" data-i18n="[title]World Info"></div>
+                <span class="drawer-label" data-i18n="World Info">World Info</span>
             </div>
             <div id="WorldInfo" class="drawer-content closedDrawer">
                 <div id="WorldInfoheader" class="fa-solid fa-grip drag-grabber"></div>
@@ -4880,6 +4885,7 @@
         <div id="user-settings-button" class="drawer">
             <div class="drawer-toggle">
                 <div class="drawer-icon lucide lucide-settings fa-fw closedIcon" title="User Settings" data-i18n="[title]User Settings"></div>
+                <span class="drawer-label" data-i18n="User Settings">User Settings</span>
             </div>
             <div id="user-settings-block" class="drawer-content closedDrawer">
                 <div class="flex-container flexFlowColumn">
@@ -5294,6 +5300,13 @@
                                 <input id="restore_user_input" type="checkbox" />
                                 <small data-i18n="Restore User Input">Restore User Input</small>
                             </label>
+                            <label class="checkbox_label" for="sidebar_layout" title="Show settings in a docked sidebar next to the chat. Desktop only; has no effect while MovingUI is enabled." data-i18n="[title]sidebar_layout_desc">
+                                <input id="sidebar_layout" type="checkbox" />
+                                <small>
+                                    <span data-i18n="Sidebar Layout">Sidebar Layout</span>
+                                    <i class="lucide lucide-panel-left"></i>
+                                </small>
+                            </label>
                             <div class="flex-container alignItemsCenter">
                                 <label id="movingUIModeCheckBlock" for="movingUImode" class="checkbox_label" title="Allow repositioning certain UI elements by dragging them. PC only, no effect on mobile." data-i18n="[title]Allow repositioning certain UI elements by dragging them. PC only, no effect on mobile">
                                     <input id="movingUImode" type="checkbox" />
@@ -5655,6 +5668,7 @@
         <div id="backgrounds-button" class="drawer">
             <div id="backgrounds-drawer-toggle" class="drawer-toggle drawer-header" title="Change Background Image" data-i18n="[title]Change Background Image">
                 <div class="drawer-icon lucide lucide-wallpaper fa-fw closedIcon"></div>
+                <span class="drawer-label" data-i18n="Backgrounds">Backgrounds</span>
             </div>
             <div id="Backgrounds" class="drawer-content closedDrawer bg-drawer-layout">
                 <div id="bg-header-fixed">
@@ -5752,6 +5766,7 @@
         <div id="extensions-settings-button" class="drawer">
             <div class="drawer-toggle">
                 <div class="drawer-icon lucide lucide-puzzle fa-fw closedIcon" title="Extensions" data-i18n="[title]Extensions"></div>
+                <span class="drawer-label" data-i18n="Extensions">Extensions</span>
             </div>
             <div id="rm_extensions_block" class="drawer-content closedDrawer">
                 <div class="extensions_block flex-container">
@@ -5835,6 +5850,7 @@
         <div id="persona-management-button" class="drawer">
             <div class="drawer-toggle">
                 <div class="drawer-icon lucide lucide-circle-user-round fa-fw closedIcon" title="Persona Management" data-i18n="[title]Persona Management"></div>
+                <span class="drawer-label" data-i18n="Persona Management">Persona Management</span>
             </div>
             <div id="PersonaManagement" class="drawer-content closedDrawer">
                 <div class="flex-container wide100p alignitemscenter spaceBetween flexNoGap">
@@ -6004,6 +6020,7 @@
             <div id="unimportantYes" class="drawer-toggle drawer-header">
                 <div id="rightNavDrawerIcon" class="drawer-icon lucide lucide-users-round fa-fw closedIcon" title="Character Management" data-i18n="[title]Character Management">
                 </div>
+                <span class="drawer-label" data-i18n="Character Management">Character Management</span>
             </div>
             <nav id="right-nav-panel" class="drawer-content closedDrawer fillRight">
                 <div id="right-nav-panelheader" class="fa-solid fa-grip drag-grabber">

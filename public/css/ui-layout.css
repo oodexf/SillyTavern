@@ -147,6 +147,32 @@ body.bubblechat .mes {
     border-radius: var(--ui-radius-xl);
 }
 
+/* Message content: neutral fills instead of the legacy black/white overlays, so light themes work */
+.mes_text blockquote,
+.mes_reasoning blockquote {
+    background-color: var(--ui-muted);
+    border-radius: 0 var(--ui-radius-sm) var(--ui-radius-sm) 0;
+}
+
+code {
+    color: inherit;
+    background-color: var(--ui-secondary);
+    border-color: var(--ui-border);
+    border-radius: var(--ui-radius-sm);
+}
+
+kbd {
+    color: var(--ui-foreground);
+    background-color: var(--ui-background);
+    border-color: var(--ui-border);
+    box-shadow: 0 1px 0 0 var(--ui-border);
+}
+
+.reasoning_edit_textarea,
+.edit_textarea {
+    background-color: var(--ui-input-background);
+}
+
 /* ------------------------------------------------------------------ */
 /* Composer                                                           */
 /* ------------------------------------------------------------------ */

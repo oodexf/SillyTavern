@@ -41,6 +41,7 @@ import { debounce_timeout, SWIPE_SOURCE } from './constants.js';
 
 import { Popup } from './popup.js';
 import { accountStorage } from './util/AccountStorage.js';
+import { isSidebarLayout, restoreActivePanel } from './sidebar-layout.js';
 import { getCurrentUserHandle } from './user.js';
 import { kai_settings } from './kai-settings.js';
 
@@ -426,6 +427,11 @@ function RA_autoconnect(PrevApi) {
 }
 
 function OpenNavPanels() {
+    if (isSidebarLayout()) {
+        restoreActivePanel();
+        return;
+    }
+
     if (!isMobile()) {
         //auto-open R nav if locked and previously open
         if (accountStorage.getItem('NavLockOn') == 'true' && accountStorage.getItem('NavOpened') == 'true') {
