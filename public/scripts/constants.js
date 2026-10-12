@@ -1,4 +1,9 @@
 /**
+ * UI language used when the user hasn't picked one.
+ */
+export const DEFAULT_LOCALE = 'zh-cn';
+
+/**
  * Common debounce timeout values to use with `debounce` calls.
  * @readonly
  * @enum {number}

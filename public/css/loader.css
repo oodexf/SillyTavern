@@ -79,10 +79,109 @@
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
-.splash-message {
+.splash-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: min(360px, 100%);
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+.splash-progress-track {
+    position: relative;
+    height: 6px;
+    border-radius: 999px;
+    background-color: var(--ui-secondary);
+    overflow: hidden;
+}
+
+.splash-progress-fill,
+.splash-progress-pending {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0;
+}
+
+.splash-progress-fill {
+    border-radius: inherit;
+    background-color: var(--ui-primary);
+    transition: width var(--ui-transition);
+}
+
+/* The part of the bar covered by the running step */
+.splash-progress-pending {
+    background: linear-gradient(90deg, var(--ui-accent) 0%, var(--ui-accent-strong) 50%, var(--ui-accent) 100%);
+    background-size: 200% 100%;
+    animation: splash-progress-shimmer 1.4s linear infinite;
+    transition: left var(--ui-transition), width var(--ui-transition);
+}
+
+@keyframes splash-progress-shimmer {
+    from {
+        background-position: 100% 0;
+    }
+
+    to {
+        background-position: -100% 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .splash-progress-pending {
+        animation: none;
+    }
+}
+
+.splash-progress-status {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.splash-progress-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--ui-foreground);
+}
+
+.splash-progress-counter {
+    flex-shrink: 0;
+    color: var(--ui-muted-foreground);
+    font-variant-numeric: tabular-nums;
+}
+
+.splash-progress-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--ui-muted-foreground);
+    text-align: center;
+}
+
+.splash-progress-error[hidden] {
+    display: none;
+}
+
+.splash-progress-error p {
     margin: 0;
-    font-size: 1.25rem;
-    font-weight: 500;
-    opacity: 0.9;
-    letter-spacing: 0.02em;
+    overflow-wrap: anywhere;
+}
+
+.splash-failed .splash-progress-fill {
+    background-color: var(--ui-destructive);
+}
+
+.splash-failed .splash-progress-label {
+    color: var(--ui-destructive);
+    white-space: normal;
 }

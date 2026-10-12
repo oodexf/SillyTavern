@@ -1,13 +1,16 @@
 import { registerDebugFunction } from './power-user.js';
 import { updateSecretDisplay } from './secrets.js';
+import { DEFAULT_LOCALE } from './constants.js';
 
 const storageKey = 'language';
 const overrideLanguage = localStorage.getItem(storageKey);
-const localeFile = String(overrideLanguage || navigator.language || navigator.userLanguage || 'en').toLowerCase();
+const localeFile = String(overrideLanguage || DEFAULT_LOCALE).toLowerCase();
 var langs;
 // Don't change to let/const! It will break module loading.
 // eslint-disable-next-line prefer-const
 var localeData;
+/** @type {Promise<void>|null} */
+let localeDataPromise = null;
 
 /** @type {Set<string>|null} Array of translations keys if they should be tracked - if not tracked then null */
 let trackMissingDynamicTranslate = null;
@@ -272,12 +275,27 @@ function addLanguagesToDropdown() {
     const selectedLanguage = localStorage.getItem(storageKey);
     if (selectedLanguage) {
         uiLanguageSelects.val(selectedLanguage);
+    } else {
+        // Onboarding has no "Default" option, show the language that is actually used
+        $('#onboarding_ui_language_select').val(localeFile);
     }
 }
 
+/**
+ * Loads the list of languages and the data of the current locale.
+ * Can be called before {@link initLocales} so that early UI (like the loading screen) is translated.
+ * @returns {Promise<void>}
+ */
+export function loadLocaleData() {
+    localeDataPromise ??= (async () => {
+        langs = await fetch('/locales/lang.json').then(response => response.json());
+        localeData = await getLocaleData(localeFile);
+    })();
+    return localeDataPromise;
+}
+
 export async function initLocales() {
-    langs = await fetch('/locales/lang.json').then(response => response.json());
-    localeData = await getLocaleData(localeFile);
+    await loadLocaleData();
     document.documentElement.lang = localeFile;
     applyLocale();
     addLanguagesToDropdown();

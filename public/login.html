@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 
 <head>
     <base href="/">
@@ -23,65 +23,73 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" type="text/css" href="css/st-tailwind.css">
-    <link rel="stylesheet" type="text/css" href="css/login.css">
     <link rel="manifest" crossorigin="use-credentials" href="manifest.json">
     <link href="webfonts/NotoSans/stylesheet.css" rel="stylesheet">
     <link href="webfonts/NotoSansMono/stylesheet.css" rel="stylesheet">
     <link href="css/lucide-icons.css" rel="stylesheet">
     <link href="css/tokens.css" rel="stylesheet">
     <link href="css/ui-components.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
     <link href="css/user.css" rel="stylesheet">
     <title>SillyTavern</title>
 </head>
 
 <body class="login">
-    <div id="shadow_popup" style="opacity: 0;">
-        <div id="dialogue_popup">
-            <div id="dialogue_popup_holder">
-                <div id="dialogue_popup_text">
-                    <div id="userSelectBlock" class="flex-container flexFlowColumn alignItemsCenter">
-                        <h2 id="logoBlock" class="flex-container">
-                            <img src="img/logo.png" alt="SillyTavern" class="logo">
-                            <span>Welcome to SillyTavern</span>
-                        </h2>
-                        <h3 id="normalLoginPrompt">
-                            Select an Account
-                        </h3>
-                        <h3 id="discreetLoginPrompt">
-                            Enter Login Details
-                        </h3>
-                        <div id="userListBlock" class="wide100p">
-                            <div id="userList" class="flex-container justifySpaceEvenly"></div>
-                            <div id="handleEntryBlock" style="display:none;" class="flex-container flexFlowColumn alignItemsCenter">
-                                <input id="userHandle" class="text_pole" type="text" placeholder="User handle" autocomplete="username">
-                            </div>
-                            <div id="passwordEntryBlock" style="display:none;"
-                                class="flex-container flexFlowColumn alignItemsCenter">
-                                <input id="userPassword" class="text_pole" type="password" placeholder="Password" autocomplete="current-password">
-                                <a id="recoverPassword" href="#" onclick="return false;">Forgot password?</a>
-                                <div class="flex-container">
-                                    <div id="loginButton" class="menu_button">Login</div>
-                                </div>
-                            </div>
-                            <div id="passwordRecoveryBlock" style="display:none;" class="flex-container flexFlowColumn alignItemsCenter">
-                                <div id="recoverMessage">
-                                    Recovery code has been posted to the server console.
-                                </div>
-                                <input id="recoveryCode" class="text_pole" type="text" placeholder="Recovery code">
-                                <input id="newPassword" class="text_pole" type="password" placeholder="New password" autocomplete="new-password">
-                                <div class="flex-container flexGap10">
-                                    <div id="sendRecovery" class="menu_button">Send</div>
-                                    <div id="cancelRecovery" class="menu_button">Cancel</div>
-                                </div>
-                            </div>
+    <main id="authPage" class="auth-page" style="opacity: 0;">
+        <div class="auth-card">
+            <div id="logoBlock" class="auth-brand">
+                <img src="img/logo.png" alt="SillyTavern" class="logo">
+                <span>SillyTavern</span>
+            </div>
+            <div class="auth-heading">
+                <h1 data-i18n="Sign in">Sign in</h1>
+                <p id="authDescription" class="auth-description"></p>
+            </div>
+
+            <div id="githubLoginBlock" class="auth-section" style="display:none;">
+                <a id="githubLoginButton" class="menu_button auth-provider-button" href="auth/github/login">
+                    <!-- GitHub mark (Primer Octicons), Lucide has no brand icons -->
+                    <svg class="auth-provider-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill="currentColor" d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z" />
+                    </svg>
+                    <span data-i18n="Continue with GitHub">Continue with GitHub</span>
+                </a>
+            </div>
+
+            <div id="authDivider" class="auth-divider" style="display:none;">
+                <span data-i18n="or">or</span>
+            </div>
+
+            <div id="userSelectBlock" class="auth-section" style="display:none;">
+                <h3 id="normalLoginPrompt" data-i18n="Select an Account">Select an Account</h3>
+                <h3 id="discreetLoginPrompt" data-i18n="Enter Login Details">Enter Login Details</h3>
+                <div id="userListBlock" class="wide100p">
+                    <div id="userList" class="flex-container justifySpaceEvenly"></div>
+                    <div id="handleEntryBlock" style="display:none;" class="auth-fields">
+                        <input id="userHandle" class="text_pole" type="text" placeholder="User handle" data-i18n="[placeholder]User handle" autocomplete="username">
+                    </div>
+                    <div id="passwordEntryBlock" style="display:none;" class="auth-fields">
+                        <input id="userPassword" class="text_pole" type="password" placeholder="Password" data-i18n="[placeholder]Password" autocomplete="current-password">
+                        <div id="loginButton" class="menu_button auth-submit" data-i18n="Login">Login</div>
+                        <a id="recoverPassword" href="#" onclick="return false;" data-i18n="Forgot password?">Forgot password?</a>
+                    </div>
+                    <div id="passwordRecoveryBlock" style="display:none;" class="auth-fields">
+                        <div id="recoverMessage" data-i18n="Recovery code has been posted to the server console.">
+                            Recovery code has been posted to the server console.
                         </div>
-                        <div class="neutral_warning" id="errorMessage">
+                        <input id="recoveryCode" class="text_pole" type="text" placeholder="Recovery code" data-i18n="[placeholder]Recovery code">
+                        <input id="newPassword" class="text_pole" type="password" placeholder="New password" data-i18n="[placeholder]New password" autocomplete="new-password">
+                        <div class="auth-actions">
+                            <div id="sendRecovery" class="menu_button auth-submit" data-i18n="Send">Send</div>
+                            <div id="cancelRecovery" class="menu_button" data-i18n="Cancel">Cancel</div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div id="errorMessage" class="auth-error" role="alert"></div>
         </div>
-    </div>
+    </main>
 
     <script src="lib/jquery-3.5.1.min.js"></script>
     <script src="scripts/login.js" type="module"></script>

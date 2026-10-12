@@ -567,8 +567,10 @@ async function hideOverlay() {
             return;
         }
 
-        // Check if transitions are enabled on spinner (which has the transition property)
-        const transitionDuration = spinner.length && spinner[0] ? getComputedStyle(spinner[0]).transitionDuration : '0s';
+        // Check if transitions are enabled on spinner (which has the transition property).
+        // Custom overlays without a spinner (like the splash screen) transition the loader itself.
+        const transitionElement = spinner.length ? spinner[0] : loaderElement[0];
+        const transitionDuration = getComputedStyle(transitionElement).transitionDuration;
         const hasTransitions = parseFloat(transitionDuration) > 0;
 
         if (hasTransitions) {

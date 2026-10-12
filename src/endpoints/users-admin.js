@@ -29,7 +29,7 @@ export const router = express.Router();
  * @param {string} text Text to slugify
  * @returns {string} Slugified text
  */
-function slugify(text) {
+export function slugify(text) {
     return lodash.deburr(String(text ?? '').toLowerCase().trim()).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
 

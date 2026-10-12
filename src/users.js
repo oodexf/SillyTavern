@@ -30,6 +30,11 @@ const ENABLE_ACCOUNTS = getConfigValue('enableUserAccounts', false, 'boolean');
 const AUTHELIA_AUTH = getConfigValue('sso.autheliaAuth', false, 'boolean');
 const AUTHENTIK_AUTH = getConfigValue('sso.authentikAuth', false, 'boolean');
 const PER_USER_BASIC_AUTH = getConfigValue('perUserBasicAuth', false, 'boolean');
+const GITHUB_AUTH = ENABLE_ACCOUNTS
+    && getConfigValue('sso.github.enabled', false, 'boolean')
+    && !!getConfigValue('sso.github.clientId', '')
+    && !!getConfigValue('sso.github.clientSecret', '');
+const PASSWORD_LOGIN = !GITHUB_AUTH || getConfigValue('sso.github.allowPasswordLogin', false, 'boolean');
 const ANON_CSRF_SECRET = crypto.randomBytes(64).toString('base64');
 const TRUSTED_PROXIES = filterValidIpPatterns(getConfigValue('sso.trustedProxies', ['127.0.0.1', '::1']) ?? [], (entry, message) => `${color.red('Warning')}: Ignoring invalid sso.trustedProxies entry ${color.yellow(entry)} - ${message}`);
 
@@ -58,6 +63,7 @@ const STORAGE_KEYS = {
  * @property {string} salt - Salt used for hashing the password
  * @property {boolean} enabled - Whether the user is enabled
  * @property {boolean} admin - Whether the user is an admin (can manage other users)
+ * @property {{id: number, login: string}} [github] - The linked GitHub account
  */
 
 /**
@@ -152,6 +158,8 @@ function logSecurityAlert(message) {
 export async function verifySecuritySettings() {
     const { listen, basicAuthMode } = globalThis.COMMAND_LINE_ARGS;
 
+    verifyGithubLoginSettings();
+
     // Skip all security checks as listen is set to false
     if (!listen) {
         return;
@@ -162,7 +170,8 @@ export async function verifySecuritySettings() {
     }
 
     const users = await getAllEnabledUsers();
-    const unprotectedUsers = users.filter(x => !x.password);
+    // Passwords can't be used to log in when GitHub is the only login method
+    const unprotectedUsers = PASSWORD_LOGIN ? users.filter(x => !x.password) : [];
     const unprotectedAdminUsers = unprotectedUsers.filter(x => x.admin);
 
     if (unprotectedUsers.length > 0) {
@@ -733,6 +742,41 @@ export async function getUserAvatar(handle) {
 }
 
 /**
+ * Logs warnings about an incomplete GitHub login configuration.
+ */
+function verifyGithubLoginSettings() {
+    if (!getConfigValue('sso.github.enabled', false, 'boolean')) {
+        return;
+    }
+
+    if (!ENABLE_ACCOUNTS) {
+        console.warn(color.yellow('GitHub login is enabled, but user accounts are disabled. Set enableUserAccounts to true in config.yaml to use it.'));
+    } else if (!GITHUB_AUTH) {
+        console.warn(color.yellow('GitHub login is enabled, but sso.github.clientId or sso.github.clientSecret is not set. GitHub login is disabled.'));
+    } else if (!PASSWORD_LOGIN) {
+        console.info('GitHub login is enabled. Password login is disabled.');
+    } else {
+        console.info('GitHub login is enabled.');
+    }
+}
+
+/**
+ * Checks if logging in with GitHub is available.
+ * @returns {boolean} Whether GitHub login is enabled and configured
+ */
+export function isGithubLoginEnabled() {
+    return GITHUB_AUTH;
+}
+
+/**
+ * Checks if logging in with a user handle and password is available.
+ * @returns {boolean} Whether password login is allowed
+ */
+export function isPasswordLoginEnabled() {
+    return PASSWORD_LOGIN;
+}
+
+/**
  * Checks if the user should be redirected to the login page.
  * @param {import('express').Request} request Request object
  * @returns {boolean} Whether the user should be redirected to the login page
@@ -754,7 +798,8 @@ export async function tryAutoLogin(request, basicAuthMode) {
     }
 
     if (!request.query.noauto) {
-        if (await singleUserLogin(request)) {
+        // A single user without a password would bypass GitHub login
+        if (!GITHUB_AUTH && await singleUserLogin(request)) {
             return true;
         }
 
