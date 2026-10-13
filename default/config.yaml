@@ -137,6 +137,34 @@ sso:
   trustedProxies:
     - ::1
     - 127.0.0.1
+  # Log in with a GitHub account. Requires enableUserAccounts: true.
+  # Create an OAuth app at https://github.com/settings/developers and set its
+  # "Authorization callback URL" to https://<your host>/auth/github/callback
+  github:
+    enabled: false
+    # Client ID of the OAuth app
+    clientId: ""
+    # Client secret of the OAuth app
+    # For better security, use an environment variable (SILLYTAVERN_SSO_GITHUB_CLIENTSECRET)
+    clientSecret: ""
+    # Overrides the callback URL sent to GitHub. Must match the URL registered in the OAuth app.
+    # Leave empty to build it from the request. Set it when running behind a reverse proxy
+    # that terminates HTTPS, e.g. "https://st.example.com/auth/github/callback"
+    callbackUrl: ""
+    # GitHub usernames that are allowed to log in. Leave empty to allow any account
+    # that is linked to a user (see accountMapping and autoCreateUsers).
+    allowedUsers: []
+    # Links GitHub usernames to existing user handles on their first login, e.g.
+    # accountMapping:
+    #   octocat: default-user
+    # After the first login the link is kept by GitHub account ID, so renaming the GitHub account is safe.
+    accountMapping: {}
+    # Create a new user for GitHub accounts that are not linked to one.
+    # Only enable together with allowedUsers, otherwise anyone with a GitHub account can sign up.
+    autoCreateUsers: false
+    # Keep the handle and password login available. When disabled, GitHub is the only way to log in
+    # (header-based SSO and per-user basic auth above still work).
+    allowPasswordLogin: false
 
 # Host whitelist configuration. Recommended if you're using a listen mode
 hostWhitelist:

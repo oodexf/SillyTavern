@@ -231,7 +231,7 @@ import {
     formatInstructModeStoryString,
     getInstructStoppingSequences,
 } from './scripts/instruct-mode.js';
-import { initLocales, t } from './scripts/i18n.js';
+import { initLocales, loadLocaleData, t } from './scripts/i18n.js';
 import { getFriendlyTokenizerName, getTokenCount, getTokenCountAsync, initTokenizers, saveTokenCache } from './scripts/tokenizers.js';
 import {
     user_avatar,
@@ -246,6 +246,7 @@ import {
 } from './scripts/personas.js';
 import { getBackgrounds, initBackgrounds, loadBackgroundSettings, background_settings } from './scripts/backgrounds.js';
 import { loader } from './scripts/action-loader.js';
+import { InitProgress } from './scripts/init-progress.js';
 import { BulkEditOverlay } from './scripts/BulkEditOverlay.js';
 import { initTextGenModels } from './scripts/textgen-models.js';
 import { appendFileContent, hasPendingFileAttachment, populateFileAttachment, decodeStyleTags, encodeStyleTags, isExternalMediaAllowed, preserveNeutralChat, restoreNeutralChat, formatCreatorNotes, initChatUtilities, addDOMPurifyHooks } from './scripts/chats.js';
@@ -693,100 +694,176 @@ export async function pingServer() {
 
 //MARK: firstLoadInit
 async function firstLoadInit() {
-    try {
-        const tokenResponse = await fetch('/csrf-token');
-        const tokenData = await tokenResponse.json();
-        token = tokenData.token;
-    } catch {
-        toastr.error(t`Couldn't get CSRF token. Please refresh the page.`, t`Error`, { timeOut: 0, extendedTimeOut: 0, preventDuplicates: true });
-        throw new Error('Initialization failed');
-    }
+    // Translate the loading screen from the start
+    await loadLocaleData().catch(error => console.error('Failed to load locale data', error));
 
-    const initLoaderOverlay = loader.createOverlay();
-    initLoaderOverlay.classList.add('splash-screen');
-
-    const splashLogo = document.createElement('img');
-    splashLogo.src = '/img/logo.png';
-    splashLogo.alt = 'SillyTavern';
-    splashLogo.className = 'splash-logo';
-    splashLogo.ariaLabel = t`SillyTavern Logo`;
-
-    const splashMessage = document.createElement('h2');
-    splashMessage.className = 'splash-message';
-    splashMessage.textContent = t`Initializing…`;
-    splashMessage.dataset.i18n = 'Initializing…';
-
-    initLoaderOverlay.prepend(splashLogo);
-    initLoaderOverlay.appendChild(splashMessage);
-
+    const initProgress = new InitProgress();
     const initLoaderHandle = loader.show({
         slug: 'app-init',
         toastMode: loader.ToastMode.NONE,
-        overlayContent: initLoaderOverlay,
+        overlayContent: initProgress.element,
     });
+    // The static placeholder in index.html is covered by the splash screen now
+    document.getElementById('preloader')?.replaceChildren();
 
-    registerPromptManagerMigration();
-    initDomHandlers();
-    initStandaloneMode();
-    initLibraryShims();
-    addShowdownPatch(showdown);
-    addDOMPurifyHooks();
-    reloadMarkdownProcessor();
-    applyBrowserFixes();
-    await getClientVersion();
-    await initSecrets();
-    await readSecretState();
-    await initLocales();
-    initChatUtilities();
-    initDefaultSlashCommands();
-    initTextGenModels();
-    initOpenAI();
-    initTextGenSettings();
-    initKoboldSettings();
-    initNovelAISettings();
-    initSystemPrompts();
-    await initExtensions();
-    initExtensionSlashCommands();
-    ToolManager.initToolSlashCommands();
-    await initPresetManager();
-    await initSystemMessages();
-    await getSettings(initLoaderHandle);
-    await checkOpenRouterAuth();
-    initKeyboard();
-    initDynamicStyles();
-    initTags();
-    initBookmarks();
-    await getUserAvatars(true, user_avatar);
-    await getCharacters();
-    await getBackgrounds();
-    await initTokenizers();
-    initBackgrounds();
-    initAuthorsNote();
-    await initPersonas();
-    await initSlashCommandAutoComplete();
-    initMacroAutoComplete();
-    initWorldInfo();
-    initHorde();
-    initSidebarLayout();
-    initRossMods();
-    initStats();
-    initCfg();
-    initLogprobs();
-    initInputMarkdown();
-    initServerHistory();
-    initSettingsSearch();
-    initBulkEdit();
-    initReasoning();
-    initWelcomeScreen();
-    await initScrapers();
-    initCustomSelectedSamplers();
-    initDataMaid();
-    initItemizedPrompts();
-    initAccessibility();
-    initSwipePicker();
-    addDebugFunctions();
-    doDailyExtensionUpdatesCheck();
-    await eventSource.emit(event_types.APP_INITIALIZED);
+    await initProgress.run([
+        {
+            label: t`Connecting to the server…`,
+            run: async () => {
+                try {
+                    const tokenResponse = await fetch('/csrf-token');
+                    const tokenData = await tokenResponse.json();
+                    token = tokenData.token;
+                } catch {
+                    toastr.error(t`Couldn't get CSRF token. Please refresh the page.`, t`Error`, { timeOut: 0, extendedTimeOut: 0, preventDuplicates: true });
+                    throw new Error(t`Couldn't get CSRF token. Please refresh the page.`);
+                }
+            },
+        },
+        {
+            label: t`Preparing the interface…`,
+            run: async () => {
+                registerPromptManagerMigration();
+                initDomHandlers();
+                initStandaloneMode();
+                initLibraryShims();
+                addShowdownPatch(showdown);
+                addDOMPurifyHooks();
+                reloadMarkdownProcessor();
+                applyBrowserFixes();
+                await getClientVersion();
+            },
+        },
+        {
+            label: t`Reading API keys…`,
+            run: async () => {
+                await initSecrets();
+                await readSecretState();
+            },
+        },
+        {
+            label: t`Applying the interface language…`,
+            run: async () => {
+                await initLocales();
+            },
+        },
+        {
+            label: t`Setting up API connections…`,
+            run: () => {
+                initChatUtilities();
+                initDefaultSlashCommands();
+                initTextGenModels();
+                initOpenAI();
+                initTextGenSettings();
+                initKoboldSettings();
+                initNovelAISettings();
+                initSystemPrompts();
+            },
+        },
+        {
+            label: t`Loading extensions…`,
+            weight: 2,
+            run: async () => {
+                await initExtensions();
+                initExtensionSlashCommands();
+                ToolManager.initToolSlashCommands();
+            },
+        },
+        {
+            label: t`Loading presets…`,
+            run: async () => {
+                await initPresetManager();
+                await initSystemMessages();
+            },
+        },
+        {
+            label: t`Loading user settings…`,
+            weight: 8,
+            run: async () => {
+                await getSettings(initLoaderHandle);
+                await checkOpenRouterAuth();
+            },
+        },
+        {
+            label: t`Setting up shortcuts and styles…`,
+            run: () => {
+                initKeyboard();
+                initDynamicStyles();
+                initTags();
+                initBookmarks();
+            },
+        },
+        {
+            label: t`Loading characters…`,
+            weight: 3,
+            run: async () => {
+                await getUserAvatars(true, user_avatar);
+                await getCharacters();
+            },
+        },
+        {
+            label: t`Loading backgrounds and tokenizers…`,
+            weight: 2,
+            run: async () => {
+                await getBackgrounds();
+                await initTokenizers();
+                initBackgrounds();
+            },
+        },
+        {
+            label: t`Loading personas…`,
+            run: async () => {
+                initAuthorsNote();
+                await initPersonas();
+            },
+        },
+        {
+            label: t`Setting up commands and autocomplete…`,
+            run: async () => {
+                await initSlashCommandAutoComplete();
+                initMacroAutoComplete();
+            },
+        },
+        {
+            label: t`Setting up World Info and panels…`,
+            run: () => {
+                initWorldInfo();
+                initHorde();
+                initSidebarLayout();
+                initRossMods();
+                initStats();
+                initCfg();
+                initLogprobs();
+                initInputMarkdown();
+                initServerHistory();
+                initSettingsSearch();
+                initBulkEdit();
+                initReasoning();
+                initWelcomeScreen();
+            },
+        },
+        {
+            label: t`Finishing up…`,
+            run: async () => {
+                await initScrapers();
+                initCustomSelectedSamplers();
+                initDataMaid();
+                initItemizedPrompts();
+                initAccessibility();
+                initSwipePicker();
+                addDebugFunctions();
+                doDailyExtensionUpdatesCheck();
+            },
+        },
+        {
+            label: t`Starting extensions…`,
+            run: async () => {
+                await eventSource.emit(event_types.APP_INITIALIZED);
+            },
+        },
+    ]);
+
+    initProgress.complete();
     await initLoaderHandle.hide();
     await fixViewport();
     await eventSource.emit(event_types.APP_READY);

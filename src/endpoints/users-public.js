@@ -5,7 +5,16 @@ import express from 'express';
 import { RateLimiterMemory, RateLimiterRes } from 'rate-limiter-flexible';
 import { getIpAddress, retryAfter } from '../express-common.js';
 import { color, Cache, getConfigValue } from '../util.js';
-import { KEY_PREFIX, getUserAvatar, toKey, getPasswordHash, getPasswordSalt, getAccountVersion } from '../users.js';
+import {
+    KEY_PREFIX,
+    getUserAvatar,
+    toKey,
+    getPasswordHash,
+    getPasswordSalt,
+    getAccountVersion,
+    isGithubLoginEnabled,
+    isPasswordLoginEnabled,
+} from '../users.js';
 
 const DISCREET_LOGIN = getConfigValue('enableDiscreetLogin', false, 'boolean');
 const PREFER_REAL_IP_HEADER = getConfigValue('rateLimiting.preferRealIpHeader', false, 'boolean');
@@ -25,9 +34,30 @@ const recoverLimiter = new RateLimiterMemory({
     duration: 300,
 });
 
+/**
+ * Rejects password-based requests when GitHub is the only login method.
+ * @param {import('express').Request} _request Request object
+ * @param {import('express').Response} response Response object
+ * @param {import('express').NextFunction} next Next function
+ */
+function requirePasswordLogin(_request, response, next) {
+    if (!isPasswordLoginEnabled()) {
+        return response.status(403).json({ error: 'Password login is disabled' });
+    }
+
+    return next();
+}
+
+router.post('/auth-methods', (_request, response) => {
+    return response.json({
+        password: isPasswordLoginEnabled(),
+        github: isGithubLoginEnabled(),
+    });
+});
+
 router.post('/list', async (_request, response) => {
     try {
-        if (DISCREET_LOGIN) {
+        if (DISCREET_LOGIN || !isPasswordLoginEnabled()) {
             return response.sendStatus(204);
         }
 
@@ -58,7 +88,7 @@ router.post('/list', async (_request, response) => {
     }
 });
 
-router.post('/login', async (request, response) => {
+router.post('/login', requirePasswordLogin, async (request, response) => {
     try {
         if (!request.body.handle) {
             console.warn('Login failed: Missing required fields');
@@ -107,7 +137,7 @@ router.post('/login', async (request, response) => {
     }
 });
 
-router.post('/recover-step1', async (request, response) => {
+router.post('/recover-step1', requirePasswordLogin, async (request, response) => {
     try {
         if (!request.body.handle) {
             console.warn('Recover step 1 failed: Missing required fields');
@@ -147,7 +177,7 @@ router.post('/recover-step1', async (request, response) => {
     }
 });
 
-router.post('/recover-step2', async (request, response) => {
+router.post('/recover-step2', requirePasswordLogin, async (request, response) => {
     try {
         if (!request.body.handle || !request.body.code) {
             console.warn('Recover step 2 failed: Missing required fields');

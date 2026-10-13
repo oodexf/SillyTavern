@@ -316,6 +316,13 @@ input[type='range']:focus-visible::-moz-range-thumb {
     padding: 10px 16px 14px;
 }
 
+/* Loader overlays only show their content */
+.popup.transparent_dialogue_popup {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
 .popup[open]::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
 }
